@@ -20,14 +20,12 @@ public class Ex14 {
      * @return Return the number that appears only once.
      */
     public static int findSingle (int[] a){
-        int single_Number = a[0];
-        int counter_Of_Runs = 0;
-
         // Assumptions:
         // a isn't empty.
         // a indeed follow the definition of the Array needed in this method.
 
         // Variables:
+        int single_Number; // Will hold the single number in the array a.
         int start_Of_Array = 0; // Index that point to the first spot in the a.
         int end_Of_Array = (a.length - 1); // Index that point to the last spot in the a.
         int possibilities = (a.length + 1) / 2; // The amount of option the single number can be in.
@@ -41,6 +39,51 @@ public class Ex14 {
             single_Number = findSingleNotEvenPossibilitiesArray(a,start_Of_Array,end_Of_Array,possibilities);
         }
         return single_Number; // Returning the single number in a.
+    }
+
+    /**
+     * This method that get an Array and return the minimal sub-array that will be bigger then x.
+     * *****
+     * not sure that my program is O(n)
+     * The run-time complexity of this program is O(n) - because //TODO!!!
+     * *****
+     * @param arr An array of whole and positive numbers.
+     * @param x A whole positive number that we need to find the minimal sub-array bigger then him.
+     * @return Return the minimal sub-array that will be bigger then x.
+     */
+    public static int smallestSubSum (int arr[], int x){
+        // Define variables:
+        int index_Start = 0;
+        int index_End = 0;
+        int sum = 0;
+        int min_Size_Of_Sub_Arr = -1;
+
+        while(index_End != arr.length){
+            if(arr[index_End] > x){
+                return 1;
+            }
+            else if (arr[index_End] < x){
+
+                sum+=arr[index_End];
+                index_End++;
+
+                if(sum > x){
+                    while (index_Start != index_End && (sum - arr[index_Start]) > x ){
+                        index_Start ++;
+                        sum -= arr[index_Start];
+                    }
+                    if(index_End - index_Start != 0) {
+                        if(min_Size_Of_Sub_Arr == -1){
+                            min_Size_Of_Sub_Arr = index_End - index_Start;
+                        }
+                        else{
+                            min_Size_Of_Sub_Arr = Math.min(min_Size_Of_Sub_Arr, (index_End - index_Start));
+                        }
+                    }
+                }
+            }
+        }
+        return min_Size_Of_Sub_Arr;
     }
 
     // This method get an Array that each number in the array will appear twice in a row (one after the another), except one.
@@ -88,5 +131,4 @@ public class Ex14 {
         }
         return a[tries-1]; // when you don't have an even amount of possibilities the middle spot also can be the single number.
     }
-
 }
