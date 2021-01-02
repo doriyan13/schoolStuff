@@ -1,4 +1,9 @@
 package com.company;
+
+//TODO: don't forget to remove this!!!!!
+import java.util.Arrays;
+//TODO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 /**
  *  This class hold all the methods for maman 14.
  * @author Doriyan Esterin/206765844.
@@ -115,22 +120,22 @@ public class Ex14 {
     }
 
     /**
-     *
-     * @param mat
-     * @return
+     * This method get a boolean square matrix and return the amount of true different regions.
+     * @param mat A boolean square matrix.
+     * @return Return the amount of true different regions.
      */
     public static int cntTrueReg (boolean[][] mat){
+        // Assumptions:
+        // the matrix array is a square matrix - amount of rows == amount of columns.
+        // A true region is at least 1 spot in the matrix.
 
+        // Define variables -
         int row = 0;
         int column = 0;
 
-
-        return 0;
+        // Call the recursion method that calculate the amount of true regions -
+        return cntTrueReg(mat,row,column);
     }
-
-
-
-
 
     // This method get an Array that each number in the array will appear twice in a row (one after the another), except one.
     // the array have even amount of possibilities the single number can be in.
@@ -291,4 +296,56 @@ public class Ex14 {
         return openSpot(arr,spot + 3);
 
     }
+
+    // This method get a boolean square matrix and return the amount of true different regions.
+    // mat - a boolean matrix.
+    // row - the current row in the matrix.
+    // column - the current column in the matrix.
+    // Return - return the amount of true different regions.
+    private static int cntTrueReg (boolean[][] mat,int row, int column){
+        if(row == mat.length){
+            return 0;
+        }
+
+        if(column == mat[0].length){
+            return cntTrueReg(mat,(row + 1),0);
+        }
+
+        if(mat[row][column] == true){
+            findAllRegion(mat,row,column); // Calling the method that find all the related true spot of the current region and change them to false (to prevent count them twice).
+            return cntTrueReg(mat,row,(column + 1)) + 1;
+        }
+        else{
+            return cntTrueReg(mat,row,(column + 1));
+        }
+    }
+
+    // This method get a boolean square matrix and find all the related true spots of this region and switch them to false.
+    // mat - a boolean matrix.
+    // row - the current row in the matrix.
+    // column - the current column in the matrix.
+    private static void findAllRegion (boolean[][] mat,int row, int column){
+        if(column == mat[0].length || column < 0 || row == mat.length || mat[row][column] == false)
+            return;
+
+        // If it didn't got into the first if then it must be 'True' -
+        mat[row][column] = false;
+
+        if(row + 1 < mat[0].length)
+            findAllRegion(mat,(row + 1),column); // Continue check one row under.
+
+        findAllRegion(mat,row,(column + 1)); // Continue check to the right.
+        findAllRegion(mat,row,(column - 1)); // Continue check to the left.
+    }
+
+    //TODO: don't forget to remove!
+//    public static void print2D(boolean mat[][])
+//    {
+//        // Loop through all rows
+//        for (boolean[] row : mat)
+//
+//            // converting each row as string
+//            // and then printing in a separate line
+//            System.out.println(Arrays.toString(row));
+//    }
 }

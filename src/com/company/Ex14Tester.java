@@ -23,7 +23,15 @@ public class Ex14Tester {
 
         System.out.println(Ex14.smallestSubSum(null,51));
 
-        for(int i=0;i<31;i++)
-        System.out.println("question 2 answer, for "+i+ ": " + Ex14.solutions(i));
+        //for(int i=0;i<31;i++)
+        //System.out.println("question 2 answer, for "+i+ ": " + Ex14.solutions(i));
+
+        boolean[][] mat = { { false, true, false, true },
+                            { true, true, true, false },
+                            { false, false, true, false},
+                            { true, false, true, false}};
+
+        System.out.println("the amount of regions is: " + Ex14.cntTrueReg(mat));
+
     }
 }
