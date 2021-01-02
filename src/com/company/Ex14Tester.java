@@ -20,5 +20,10 @@ public class Ex14Tester {
 
         int[] arr4 = {45,6,0};
         System.out.println(Ex14.smallestSubSum(arr4,51));
+
+        System.out.println(Ex14.smallestSubSum(null,51));
+
+        for(int i=0;i<31;i++)
+        System.out.println("question 2 answer, for "+i+ ": " + Ex14.solutions(i));
     }
 }
