@@ -1,7 +1,6 @@
 package com.company;
 
 //TODO: don't forget to remove this!!!!!
-import java.util.Arrays;
 //TODO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /**
@@ -18,8 +17,8 @@ public class Ex14 {
      * This method that get an Array that each number in the array will appear twice in a row (one after the another), except one.
      * The method return the number that appears only once.
      * *****
-     * not sure that my program is O(n), i still need to think if this is the most efficent way?!
-     * The run-time complexity of this program is O(n) - because even though i only loop trough the array n/4 times it's still O(n).
+     * write a better explanation!!!
+     * The run-time complexity of this program is O(log n) - because i find the middle of the array each time an choose which half i need to continue testing (it's like a binary search therefore it's log n)
      * *****
      * @param a Array that each number in the array will appear twice, except one.
      * @return Return the number that appears only once.
@@ -37,11 +36,11 @@ public class Ex14 {
 
         if(possibilities%2 == 0){
             // Calling a private method i created for an arr that have even amount of possibilities:
-            single_Number = findSingleEvenPossibilitiesArray(a,start_Of_Array,end_Of_Array,possibilities);
+            single_Number = findSingleEvenPossibilitiesArray(a,start_Of_Array,end_Of_Array);
         }
         else{
             // Calling a private method i created for an arr that don't have even amount of possibilities:
-            single_Number = findSingleNotEvenPossibilitiesArray(a,start_Of_Array,end_Of_Array,possibilities);
+            single_Number = findSingleNotEvenPossibilitiesArray(a,start_Of_Array,end_Of_Array);
         }
         return single_Number; // Returning the single number in a.
     }
@@ -116,7 +115,7 @@ public class Ex14 {
         // Define variables:
         int x1 =1, x2 = 1, x3 = 1; // Set x1,x2 and x3 as 1 and going up each possibility in recursion to find all the possible solutions.
         int[] arr_All_Combinations = new int[228]; // Setting an array that will store each combination that i find to avoid printing doubles (through the recursion you end up through the same possibility few times).
-        return solutions(x1,x2,x3,num,arr_All_Combinations); // Calling my private recursion method to run through all the possibilities.
+        return solutions2(x1,x2,x3,num,arr_All_Combinations); // Calling my private recursion method to run through all the possibilities.
     }
 
     /**
@@ -137,25 +136,46 @@ public class Ex14 {
         return cntTrueReg(mat,row,column);
     }
 
+    //----------------------------------------------------------------------------------------------------------------------------------
     // This method get an Array that each number in the array will appear twice in a row (one after the another), except one.
     // the array have even amount of possibilities the single number can be in.
     // a - an Array that each number in the array will appear twice in a row (one after the another), except one.
     // start_Of_Array - index of the start of the array.
     // end_Of_Array - index of the ent of the array.
-    // possibilities - the amount of possibilities the single number can be in.
     // Return - the single number.
-    private static int findSingleEvenPossibilitiesArray(int[] a, int start_Of_Array, int end_Of_Array, int possibilities){
-        int tries  = 0;
-        while (tries != (possibilities / 2)){
+    private static int findSingleEvenPossibilitiesArray(int[] a, int start_Of_Array, int end_Of_Array){
+        // Define variables -
+        int middle;
+
+        while (start_Of_Array < end_Of_Array){
             if(a[start_Of_Array] != a[start_Of_Array + 1]){
                 return a[start_Of_Array];
             }
             if(a[end_Of_Array] != a[end_Of_Array - 1]){
                 return a[end_Of_Array];
             }
-            start_Of_Array+=2;
-            end_Of_Array-=2;
-            tries++;
+
+            middle = (end_Of_Array + start_Of_Array) / 2;
+
+            if((end_Of_Array - 2) - (start_Of_Array + 2) < 3){
+                if((start_Of_Array + 1) == (middle - 1) && (end_Of_Array - 1) == (middle + 1)){
+                    return a[middle];
+                }
+                if(a[middle - 1] != a[middle]){
+                    return a[middle - 1];
+                }
+                else {
+                    return a[middle +1];
+                }
+            }
+            if(a[middle - 1] != a[middle]){
+                end_Of_Array =middle - 1;
+                start_Of_Array+=2;
+            }
+            else {
+                start_Of_Array = middle+1;
+                end_Of_Array-=2;
+            }
         }
         return 404; // to prevent syntax, the method shouldn't return it because the assumption is that i will get an array that will hold a 1 different number.
     }
@@ -165,23 +185,44 @@ public class Ex14 {
     // a - an Array that each number in the array will appear twice in a row (one after the another), except one.
     // start_Of_Array - index of the start of the array.
     // end_Of_Array - index of the ent of the array.
-    // possibilities - the amount of possibilities the single number can be in.
     // Return - the single number.
-    private static int findSingleNotEvenPossibilitiesArray(int[] a, int start_Of_Array, int end_Of_Array, int possibilities){
-        int tries  = 0;
-        while (tries != (possibilities / 2)){
+    private static int findSingleNotEvenPossibilitiesArray(int[] a, int start_Of_Array, int end_Of_Array){
+        // Define variables -
+        int middle;
+
+        while (start_Of_Array < end_Of_Array){
             if(a[start_Of_Array] != a[start_Of_Array + 1]){
                 return a[start_Of_Array];
             }
             if(a[end_Of_Array] != a[end_Of_Array - 1]){
                 return a[end_Of_Array];
             }
-            start_Of_Array+=2;
-            end_Of_Array-=2;
-            tries++;
+
+            middle = (end_Of_Array + start_Of_Array) / 2;
+
+            if((end_Of_Array - 2) - (start_Of_Array + 2) < 3){
+                if((start_Of_Array + 1) == (middle - 1) && (end_Of_Array - 1) == (middle + 1)){
+                    return a[middle];
+                }
+                if(a[middle - 1] != a[middle]){
+                    return a[middle - 1];
+                }
+                else {
+                    return a[middle +1];
+                }
+            }
+            if(a[middle - 1] == a[middle]){
+                end_Of_Array =middle - 2;
+                start_Of_Array+=2;
+            }
+            else {
+                start_Of_Array = middle+2;
+                end_Of_Array-=2;
+            }
         }
-        return a[tries-1]; // when you don't have an even amount of possibilities the middle spot also can be the single number.
+        return 404; // to prevent syntax, the method shouldn't return it because the assumption is that i will get an array that will hold a 1 different number.
     }
+    //----------------------------------------------------------------------------------------------------------------------------------
 
     // Requrstion method to calculate all the possibilities. return the amount of options.
     // x1 - The first number in the equation.
@@ -225,36 +266,39 @@ public class Ex14 {
         return solutions((x1 + 1),x2, x3, num,arr_All_Combinations) + solutions(x1,(x2 + 1), x3, num,arr_All_Combinations);
     }
 
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //TODO: Remove in the end!
-//    private static int solutions (int x1, int x2, int x3, int num, int[] arr_All_Combinations){
-//        // The recursion stop point - if the sum is bigger then the wanted num then there is no point continue this up this direction.
-//        // Also capping the size of each the numbers x1,x2,x3 to not go above 10 (as defined in the question).
-//        if(x1 + x2 + x3 > num || x1 > 10 || x2 > 10 || x3 > 10){
-//            return 0;
-//        }
-//        // Define an index that let me know where am i at in the array that hold all the possibilities.
-//        // A way to improve the code and make it way faster is to use a map and index the keys of each combination and thus reduces the run time.
-//        // also the fact i can't use loops make me use recursion to loop through the array i create in recursion.
-//        int index = openSpot(arr_All_Combinations,0); // openSpot is a private method i created to loop through my array of combinations and see if  i'm already have this combination.
-//
-//        // Checking if the sum of x1,x2 and x3 is equals to num and i don't have this combination yet or maximized the possibilities that exist (if i did index == -1)
-//        if(x1 + x2 + x3 == num && index != -1 && !isExistInArr(x1,x2,x3,arr_All_Combinations,0, index)){
-//            // Printing the current solution -
-//            System.out.println(x1 + " + " + x2 + " + " + x3);
-//            // Adding the new combination to my array -
-//            arr_All_Combinations[index] = x1;
-//            arr_All_Combinations[index + 1] = x2;
-//            arr_All_Combinations[index + 2] = x3;
-//            // Calling the recursion method again for each possibility and adding +1 to the return for the amount of solutions -
-//            return (solutions((x1 + 1),x2,x3,num,arr_All_Combinations) + solutions(x1,(x2 + 1),x3,num,arr_All_Combinations) + solutions(x1,x2,(x3 + 1),num,arr_All_Combinations)) + 1;
-//        }
-//        // Calling the recursion method again for each possibility -
-//        return solutions((x1 + 1), x2, x3, num,arr_All_Combinations) + solutions(x1, (x2 + 1), x3, num,arr_All_Combinations) + solutions(x1, x2, (x3 + 1), num,arr_All_Combinations);
-//    }
-    //TODO: till here!@!
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //TODO: add API and remove the old code , also do the refactor for question 1 - make it log n!!!!
+    public static int solutions2(int x1, int x2, int x3, int num, int[] arr_All_Combinations){
+        if(x1 == 10 && x2 == 10 && x3 == 10){
+            return 0;
+        }
 
+        int index = openSpot(arr_All_Combinations,0); // openSpot is a private method i created to loop through my array of combinations and see if  i'm already have this combination.
+
+        if(x1 + x2 + x3 == num && index != -1 && !isExistInArr(x1,x2,x3,arr_All_Combinations,0, index)) {
+            // Printing the current solution -
+            System.out.println(x1 + " + " + x2 + " + " + x3);
+            // Adding the new combination to my array -
+            arr_All_Combinations[index] = x1;
+            arr_All_Combinations[index + 1] = x2;
+            arr_All_Combinations[index + 2] = x3;
+
+            return solutions2(x1,x2,x3,num,arr_All_Combinations) + 1;
+        }
+        if(x1>=10){
+            if(x2>=10){
+                x3++;
+                x2=1;
+            }
+            else {
+                x2++;
+            }
+            x1=1;
+        }
+        else{
+            x1++;
+        }
+        return solutions2(x1,x2,x3,num,arr_All_Combinations);
+    }
 
     // This method get 3 numbers, arr, start point (index - start at zero always) and a stop_Point and return if the combination of x1,x2,x3 is exist in arr.
     // x1 - The first number in the equation.
