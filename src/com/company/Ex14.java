@@ -1,10 +1,7 @@
 package com.company;
 
-//TODO: don't forget to remove this!!!!!
-//TODO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 /**
- *  This class hold all the methods for maman 14.
+ *  This class hold all the methods for Maman 14.
  * @author Doriyan Esterin/206765844.
  * @version 31/12/2020.
  */
@@ -17,15 +14,14 @@ public class Ex14 {
      * This method that get an Array that each number in the array will appear twice in a row (one after the another), except one.
      * The method return the number that appears only once.
      * *****
-     * write a better explanation!!!
-     * The run-time complexity of this program is O(log n) - because i find the middle of the array each time an choose which half i need to continue testing (it's like a binary search therefore it's log n)
+     * The run-time complexity of this program is O(log n) - because i find the middle of the array each time and choose which half i need to continue testing and ignore the second part each time (it's like a binary search therefore it's log n)
      * *****
      * @param a Array that each number in the array will appear twice, except one.
      * @return Return the number that appears only once.
      */
     public static int findSingle (int[] a){
         // Assumptions:
-        // a isn't empty.
+        // a isn't empty - each number in the array will appear twice in a row (one after the another), except one.
         // a indeed follow the definition of the Array needed in this method.
 
         // Variables:
@@ -137,6 +133,8 @@ public class Ex14 {
     }
 
     //----------------------------------------------------------------------------------------------------------------------------------
+    // Private methods i wrote in this Maman (14) to build cleaner public methods:
+
     // This method get an Array that each number in the array will appear twice in a row (one after the another), except one.
     // the array have even amount of possibilities the single number can be in.
     // a - an Array that each number in the array will appear twice in a row (one after the another), except one.
@@ -145,7 +143,7 @@ public class Ex14 {
     // Return - the single number.
     private static int findSingleEvenPossibilitiesArray(int[] a, int start_Of_Array, int end_Of_Array){
         // Define variables -
-        int middle;
+        int middle = 0;
 
         while (start_Of_Array < end_Of_Array){
             if(a[start_Of_Array] != a[start_Of_Array + 1]){
@@ -177,7 +175,7 @@ public class Ex14 {
                 end_Of_Array-=2;
             }
         }
-        return 404; // to prevent syntax, the method shouldn't return it because the assumption is that i will get an array that will hold a 1 different number.
+        return a[start_Of_Array]; // to prevent syntax, the method shouldn't return it because the assumption is that i will get an array that will hold a 1 different number.
     }
 
     // This method get an Array that each number in the array will appear twice in a row (one after the another), except one.
@@ -188,7 +186,7 @@ public class Ex14 {
     // Return - the single number.
     private static int findSingleNotEvenPossibilitiesArray(int[] a, int start_Of_Array, int end_Of_Array){
         // Define variables -
-        int middle;
+        int middle = 0;
 
         while (start_Of_Array < end_Of_Array){
             if(a[start_Of_Array] != a[start_Of_Array + 1]){
@@ -220,11 +218,11 @@ public class Ex14 {
                 end_Of_Array-=2;
             }
         }
-        return 404; // to prevent syntax, the method shouldn't return it because the assumption is that i will get an array that will hold a 1 different number.
+        return a[start_Of_Array]; // to prevent syntax, the method shouldn't return it because the assumption is that i will get an array that will hold a 1 different number.
     }
-    //----------------------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    // Requrstion method to calculate all the possibilities. return the amount of options.
+    // Recursion method to calculate all the possibilities. return the amount of options.
     // x1 - The first number in the equation.
     // x2 - The second number in the equation.
     // x3 - The third number in the equation.
@@ -369,7 +367,7 @@ public class Ex14 {
     // row - the current row in the matrix.
     // column - the current column in the matrix.
     private static void findAllRegion (boolean[][] mat,int row, int column){
-        if(column == mat[0].length || column < 0 || row == mat.length || mat[row][column] == false)
+        if(column == mat[0].length || column < 0 || row == mat.length || row == -1 || mat[row][column] == false)
             return;
 
         // If it didn't got into the first if then it must be 'True' -
@@ -380,16 +378,6 @@ public class Ex14 {
 
         findAllRegion(mat,row,(column + 1)); // Continue check to the right.
         findAllRegion(mat,row,(column - 1)); // Continue check to the left.
+        findAllRegion(mat,(row - 1),column); // Continue check to Up.
     }
-
-    //TODO: don't forget to remove!
-//    public static void print2D(boolean mat[][])
-//    {
-//        // Loop through all rows
-//        for (boolean[] row : mat)
-//
-//            // converting each row as string
-//            // and then printing in a separate line
-//            System.out.println(Arrays.toString(row));
-//    }
 }
