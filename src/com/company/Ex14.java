@@ -30,7 +30,7 @@ public class Ex14 {
         int end_Of_Array = (a.length - 1); // Index that point to the last spot in the a.
         int possibilities = (a.length + 1) / 2; // The amount of option the single number can be in.
 
-        if(possibilities%2 == 0){
+        if(possibilities % 2 == 0){
             // Calling a private method i created for an arr that have even amount of possibilities:
             single_Number = findSingleEvenPossibilitiesArray(a,start_Of_Array,end_Of_Array);
         }
@@ -101,8 +101,6 @@ public class Ex14 {
         // The order of the lines being printed don't matter.
         // I can't use any kind of loops!
         // I can use overloading.
-        //TODO: fix my code and comment on everything! and make it pretty!!
-        //TODO: if i pass 23 or 24 i get into infinate loop, and i don't understand why? - figure it out!!
 
         // If the num is lower then 3 or bigger then 30 the method will return 0.
         if(num < 3 || num > 30){
@@ -111,7 +109,7 @@ public class Ex14 {
         // Define variables:
         int x1 =1, x2 = 1, x3 = 1; // Set x1,x2 and x3 as 1 and going up each possibility in recursion to find all the possible solutions.
         int[] arr_All_Combinations = new int[228]; // Setting an array that will store each combination that i find to avoid printing doubles (through the recursion you end up through the same possibility few times).
-        return solutions2(x1,x2,x3,num,arr_All_Combinations); // Calling my private recursion method to run through all the possibilities.
+        return solutions(x1,x2,x3,num,arr_All_Combinations); // Calling my private recursion method to run through all the possibilities.
     }
 
     /**
@@ -133,7 +131,9 @@ public class Ex14 {
     }
 
     //----------------------------------------------------------------------------------------------------------------------------------
+    // ***************************************************************************
     // Private methods i wrote in this Maman (14) to build cleaner public methods:
+    // ***************************************************************************
 
     // This method get an Array that each number in the array will appear twice in a row (one after the another), except one.
     // the array have even amount of possibilities the single number can be in.
@@ -143,7 +143,7 @@ public class Ex14 {
     // Return - the single number.
     private static int findSingleEvenPossibilitiesArray(int[] a, int start_Of_Array, int end_Of_Array){
         // Define variables -
-        int middle = 0;
+        int middle;
 
         while (start_Of_Array < end_Of_Array){
             if(a[start_Of_Array] != a[start_Of_Array + 1]){
@@ -175,7 +175,7 @@ public class Ex14 {
                 end_Of_Array-=2;
             }
         }
-        return a[start_Of_Array]; // to prevent syntax, the method shouldn't return it because the assumption is that i will get an array that will hold a 1 different number.
+        return a[start_Of_Array]; // Will get here if start_Of_Array == end_Of_Array , and in this scenario that's mean the single number is this one!
     }
 
     // This method get an Array that each number in the array will appear twice in a row (one after the another), except one.
@@ -186,7 +186,7 @@ public class Ex14 {
     // Return - the single number.
     private static int findSingleNotEvenPossibilitiesArray(int[] a, int start_Of_Array, int end_Of_Array){
         // Define variables -
-        int middle = 0;
+        int middle;
 
         while (start_Of_Array < end_Of_Array){
             if(a[start_Of_Array] != a[start_Of_Array + 1]){
@@ -218,9 +218,8 @@ public class Ex14 {
                 end_Of_Array-=2;
             }
         }
-        return a[start_Of_Array]; // to prevent syntax, the method shouldn't return it because the assumption is that i will get an array that will hold a 1 different number.
+        return a[start_Of_Array];  // Will get here if start_Of_Array == end_Of_Array , and in this scenario that's mean the single number is this one!
     }
-    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // Recursion method to calculate all the possibilities. return the amount of options.
     // x1 - The first number in the equation.
@@ -232,12 +231,8 @@ public class Ex14 {
     //          and this method also print each solution in separate line.
     //          if num < 3 or num > 30 the method will return 0.
     public static int solutions(int x1, int x2, int x3, int num, int[] arr_All_Combinations){
-        // The recursion stop point - if the sum is bigger then the wanted num then there is no point continue this up this direction.
-        // Notice that x3 always will be = 1 because this is the minimal number he can be and yet must be considered,
-        // also i want the recursion stop to be only depends on x1 and x2 as they the only indexes that i raise by 1 each time, i adjust x3 accordingly
-        // so keep the temp value will break the recursion prematurely.
-        // Also capping the size of each the numbers x1,x2,x3 to not go above 10 (as defined in the question).
-        if(x1 + x2 + x3 > num || x1 > 10 || x2 > 10){
+        // The recursion stop point - when all the 3 numbers x1,x2,x3 got to 10;
+        if(x1 == 10 && x2 == 10 && x3 == 10){
             return 0;
         }
         // Define an index that let me know where am i at in the array that hold all the possibilities.
@@ -245,33 +240,7 @@ public class Ex14 {
         // also the fact i can't use loops make me use recursion to loop through the array i create in recursion.
         int index = openSpot(arr_All_Combinations,0); // openSpot is a private method i created to loop through my array of combinations and see if  i'm already have this combination.
 
-        // To avoid infinite loops and 3^n run-time complexity i realized that x3 is the total of (num - x1 - x2)
-        // therefore you don't need to run each of his possibilities and only run through x1 and x2 and see if there is a correct x3 for the combo -
-        int temp_X3= num - x1 - x2;
-
-        // Checking if the sum of x1,x2 and temp_X3 is equals to num and i don't have this combination yet or maximized the possibilities that exist (if i did index == -1)
-        if(temp_X3 < 11 && x1 + x2 + temp_X3 == num && index != -1 && !isExistInArr(x1,x2,temp_X3,arr_All_Combinations,0, index)) {
-            // Printing the current solution -
-            System.out.println(x1 + " + " + x2 + " + " + temp_X3);
-            // Adding the new combination to my array -
-            arr_All_Combinations[index] = x1;
-            arr_All_Combinations[index + 1] = x2;
-            arr_All_Combinations[index + 2] = temp_X3;
-            // Calling the recursion method again for each possibility and adding +1 to the return for the amount of solutions -
-            return solutions((x1 + 1),x2, x3, num,arr_All_Combinations) + solutions(x1,(x2 + 1), x3, num,arr_All_Combinations) +1;
-        }
-        // Calling the recursion method again for the next possibility -
-        return solutions((x1 + 1),x2, x3, num,arr_All_Combinations) + solutions(x1,(x2 + 1), x3, num,arr_All_Combinations);
-    }
-
-    //TODO: add API and remove the old code , also do the refactor for question 1 - make it log n!!!!
-    public static int solutions2(int x1, int x2, int x3, int num, int[] arr_All_Combinations){
-        if(x1 == 10 && x2 == 10 && x3 == 10){
-            return 0;
-        }
-
-        int index = openSpot(arr_All_Combinations,0); // openSpot is a private method i created to loop through my array of combinations and see if  i'm already have this combination.
-
+        // Checking if the sum of x1,x2 and x3 is equals to num and i don't have this combination yet or maximized the possibilities that exist (if i did index == -1)
         if(x1 + x2 + x3 == num && index != -1 && !isExistInArr(x1,x2,x3,arr_All_Combinations,0, index)) {
             // Printing the current solution -
             System.out.println(x1 + " + " + x2 + " + " + x3);
@@ -279,9 +248,10 @@ public class Ex14 {
             arr_All_Combinations[index] = x1;
             arr_All_Combinations[index + 1] = x2;
             arr_All_Combinations[index + 2] = x3;
-
-            return solutions2(x1,x2,x3,num,arr_All_Combinations) + 1;
+            // Calling the recursion method again and adding +1 to the return for the amount of solutions -
+            return solutions(x1,x2,x3,num,arr_All_Combinations) + 1;
         }
+        // My recursion will loop (recursively) through the options : (and do the tests for each option)
         if(x1>=10){
             if(x2>=10){
                 x3++;
@@ -295,7 +265,8 @@ public class Ex14 {
         else{
             x1++;
         }
-        return solutions2(x1,x2,x3,num,arr_All_Combinations);
+        // Calling the recursion method again with the new x1,x2,x3 values accordingly -
+        return solutions(x1,x2,x3,num,arr_All_Combinations);
     }
 
     // This method get 3 numbers, arr, start point (index - start at zero always) and a stop_Point and return if the combination of x1,x2,x3 is exist in arr.
@@ -309,8 +280,8 @@ public class Ex14 {
     // Return - True if the combination is already exist, False if it doesn't.
     private static boolean isExistInArr(int x1, int x2, int x3, int[] arr, int index, int stop_Point){
         // If i reached the end of spots fill with data or reached to an empty spot i will return false.
-        //TODO - i think maybe the value zero test is unneccery but i need to verifiy this!
-        if(index == stop_Point || arr[index] == 0)
+        // Also testing that stop_Point isn't -1 because i give the index that i calculate in openSpot method which can return -1 as an stop_Point
+        if(index == stop_Point || arr[index] == 0 || stop_Point == -1)
             return false;
 
         // If i found my combination in this array i will return true (does exist) -
@@ -380,4 +351,5 @@ public class Ex14 {
         findAllRegion(mat,row,(column - 1)); // Continue check to the left.
         findAllRegion(mat,(row - 1),column); // Continue check to Up.
     }
+    //----------------------------------------------------------------------------------------------------------------------------------
 }
