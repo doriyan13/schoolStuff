@@ -2,7 +2,7 @@ package com.company;
 
 public class Ex14StudentTester
 {
-    public static void main(){
+    public static void main(String[] args){
         System.out.println ("********** Question 1 **********\n");
 
         int[] array1 = {6,6,18,18,-4,-4,12,9,9};
