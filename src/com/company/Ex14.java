@@ -9,6 +9,7 @@ public class Ex14 {
     //TODO: Write API for all the methods.
     //TODO: write the complex runTime as part of the API
     //TODO: all the methods must be in this class!
+    //TODO: varify that i worte all the class names correctly and test the class in BlueJ!
 
     /**
      * This method that get an Array that each number in the array will appear twice in a row (one after the another), except one.
