@@ -14,9 +14,7 @@ public class Ex14 {
     /**
      * This method that get an Array that each number in the array will appear twice in a row (one after the another), except one.
      * The method return the number that appears only once.
-     * *****
      * The run-time complexity of this program is O(log n) - because i find the middle of the array each time and choose which half i need to continue testing and ignore the second part each time (it's like a binary search therefore it's log n)
-     * *****
      * @param a Array that each number in the array will appear twice, except one.
      * @return Return the number that appears only once.
      */
@@ -29,7 +27,7 @@ public class Ex14 {
         int single_Number; // Will hold the single number in the array a.
         int start_Of_Array = 0; // Index that point to the first spot in the a.
         int end_Of_Array = (a.length - 1); // Index that point to the last spot in the a.
-        int possibilities = (a.length + 1) / 2; // The amount of option the single number can be in.
+        int possibilities = (a.length + 1) / 2; // The amount of option the single number can be in (will always be the length of the array +1 divide by 2).
 
         if(possibilities % 2 == 0){
             // Calling a private method i created for an arr that have even amount of possibilities:
@@ -43,11 +41,11 @@ public class Ex14 {
     }
 
     /**
-     * This method that get an Array and return the minimal sub-array that will be bigger then x.
+     * This method get an Array and return the minimal sub-array that will be bigger then x.
      * The run-time complexity of this program is O(n) - because at the worst case in my method is 2n meaning the minimal
      * sub-array will be the 2 last spots in my array so i haded scanned the entire array (n) with my index_Start and another scan
      * with my index_End in the testing minimizing the sub-array but the index_Start will stop at last spot where pointing index_End
-     * thus the run-time complexity of 2n is O(n).
+     * in conclusion the run-time complexity of 2n is O(n).
      * @param arr An array of whole and positive numbers.
      * @param x A whole positive number that we need to find the minimal sub-array bigger then him.
      * @return Return the minimal sub-array that will be bigger then x.
@@ -61,22 +59,26 @@ public class Ex14 {
 
         if(arr != null) { // In case you get an un-initialize array.
             while (index_End != arr.length) {
+                // If single spot is bigger then the sum then that's mean the minimal sub-array will be 1 -
                 if (arr[index_End] > x) {
                     return 1;
-                } else {
-
+                }
+                else {
+                    // Try adding another spot to the total sum to test if now you have a sum that bigger then x -
                     sum += arr[index_End];
                     index_End++;
 
                     if (sum > x) {
+                        // If you got a sum that is bigger then x, try trim spots from the start to see if you still can get smaller sub-array -
                         while (index_Start != index_End && (sum - arr[index_Start]) > x) {
                             index_Start++;
                             sum -= arr[index_Start];
                         }
                         if (index_End - index_Start != 0) {
-                            if (min_Size_Of_Sub_Arr == -1) {
+                            if (min_Size_Of_Sub_Arr == -1) { // If this is the first time i fill min_Size_Of_Sub_Arr -
                                 min_Size_Of_Sub_Arr = index_End - index_Start;
                             } else {
+                                // Keep track of the smallest sub-array i find -
                                 min_Size_Of_Sub_Arr = Math.min(min_Size_Of_Sub_Arr, (index_End - index_Start));
                             }
                         }
@@ -84,13 +86,12 @@ public class Ex14 {
                 }
             }
         }
-        return min_Size_Of_Sub_Arr;
+        return min_Size_Of_Sub_Arr; // Return the smallest sub-array number of spots that i find.
     }
 
     /**
      * This method gets a whole positive number and return amount of solutions for this equation - x1 + x2 + x3 = num,
      * and this method also print each solution in separate line.
-     * if num < 3 or num > 30 the method will return 0.
      * @param num The number this method going to calculate all the amount of solutions for this equation - x1 + x2 + x3 = num.
      * @return return amount of solutions for this equation - x1 + x2 + x3 = num,
      * and this method also print each solution in separate line.
@@ -98,7 +99,7 @@ public class Ex14 {
      */
     public static int solutions (int num){
         // Assumptions:
-        // x1,x2,x3 - are whole positive numbers between 1 - 10.
+        // x1,x2,x3 - are whole positive numbers between 1 - 10 (including 1 and 10).
         // The order of the lines being printed don't matter.
         // I can't use any kind of loops!
         // I can use overloading.
@@ -109,8 +110,10 @@ public class Ex14 {
         }
         // Define variables:
         int x1 =1, x2 = 1, x3 = 1; // Set x1,x2 and x3 as 1 and going up each possibility in recursion to find all the possible solutions.
-        int[] arr_All_Combinations = new int[228]; // Setting an array that will store each combination that i find to avoid printing doubles (through the recursion you end up through the same possibility few times).
-        return solutions(x1,x2,x3,num,arr_All_Combinations); // Calling my private recursion method to run through all the possibilities.
+        int[] arr_All_Combinations = new int[228]; // Setting an array that will store each combination that i find to avoid printing doubles (through the recursion you may end up through the same possibility few times).
+
+        // Calling my private recursion method to run through all the possibilities.
+        return solutions(x1,x2,x3,num,arr_All_Combinations);
     }
 
     /**
@@ -145,7 +148,7 @@ public class Ex14 {
     private static int findSingleEvenPossibilitiesArray(int[] a, int start_Of_Array, int end_Of_Array){
         // Define variables -
         int middle;
-
+        // Will look through the array until my starting index pass my ending index of the array -
         while (start_Of_Array < end_Of_Array){
             if(a[start_Of_Array] != a[start_Of_Array + 1]){
                 return a[start_Of_Array];
@@ -153,30 +156,30 @@ public class Ex14 {
             if(a[end_Of_Array] != a[end_Of_Array - 1]){
                 return a[end_Of_Array];
             }
-
+            // Finding the middle spot of the array -
             middle = (end_Of_Array + start_Of_Array) / 2;
-
-            if((end_Of_Array - 2) - (start_Of_Array + 2) < 3){
-                if((start_Of_Array + 1) == (middle - 1) && (end_Of_Array - 1) == (middle + 1)){
+            // When i have only 3 or less spots to check then i can divide the possibilities to 3 -
+            if((end_Of_Array - 2) - (start_Of_Array + 2) < 3){ // I do -2 because in the 2 if's before i tested the 2 spots of the start and 2 spots in the end -
+                if((start_Of_Array + 1) == (middle - 1) && (end_Of_Array - 1) == (middle + 1)){ // In this scenario you will be left only with the final middle spot.
                     return a[middle];
                 }
-                if(a[middle - 1] != a[middle]){
+                if(a[middle - 1] != a[middle]){ // In this scenario it will be the left spot to the middle -
                     return a[middle - 1];
                 }
-                else {
+                else { // Finally if it's not the middle spot or the left spot it must be the right spot of the trio -
                     return a[middle +1];
                 }
             }
-            if(a[middle - 1] != a[middle]){
+            if(a[middle - 1] != a[middle]){ // Continue only on the left half -
                 end_Of_Array =middle - 1;
                 start_Of_Array+=2;
             }
-            else {
+            else { // Continue only on the right half -
                 start_Of_Array = middle+1;
                 end_Of_Array-=2;
             }
         }
-        return a[start_Of_Array]; // Will get here if start_Of_Array == end_Of_Array , and in this scenario that's mean the single number is this one!
+        return a[start_Of_Array]; // Will get here if start_Of_Array == end_Of_Array , and in this scenario that's mean the single number is the final spot left (it's doesn't matter if you choose the start index or the end index because in this scenario they are equals).
     }
 
     // This method get an Array that each number in the array will appear twice in a row (one after the another), except one.
@@ -200,27 +203,29 @@ public class Ex14 {
             middle = (end_Of_Array + start_Of_Array) / 2;
 
             if((end_Of_Array - 2) - (start_Of_Array + 2) < 3){
+                // In this scenario you will be left only with the final middle spot -
                 if((start_Of_Array + 1) == (middle - 1) && (end_Of_Array - 1) == (middle + 1)){
                     return a[middle];
                 }
-                if(a[middle - 1] != a[middle]){
+                if(a[middle - 1] != a[middle]){ // In this scenario it will be the left spot to the middle -
                     return a[middle - 1];
                 }
                 else {
-                    return a[middle +1];
+                    return a[middle +1]; // Finally if it's not the middle spot or the left spot it must be the right spot of the trio -
                 }
             }
-            if(a[middle - 1] == a[middle]){
+            if(a[middle - 1] == a[middle]){ // Continue only on the left half -
                 end_Of_Array =middle - 2;
                 start_Of_Array+=2;
             }
-            else {
+            else { // Continue only on the right half -
                 start_Of_Array = middle+2;
                 end_Of_Array-=2;
             }
         }
-        return a[start_Of_Array];  // Will get here if start_Of_Array == end_Of_Array , and in this scenario that's mean the single number is this one!
+        return a[start_Of_Array];  // Will get here if start_Of_Array == end_Of_Array , and in this scenario that's mean the single number is the final spot left (it's doesn't matter if you choose the start index or the end index because in this scenario they are equals).
     }
+//TODO: finish to go over this part and you done! (@DoriyanEsterin) -
 
     // Recursion method to calculate all the possibilities. return the amount of options.
     // x1 - The first number in the equation.
