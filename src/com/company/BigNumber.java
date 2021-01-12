@@ -7,6 +7,8 @@ package com.company;
 public class BigNumber {
 
     //TODO: fill all the api!
+    //TODO: i think i made a stackover flow some how because of all the loops or somthing like this, this test taking wayyy to much time and such,
+    //TODO: as always start by testing 1 after 1 and then refactor the code to be faster and in the end run total , cause now it give memeroy error!
 
     // Define class variables -
     private IntNode _head;
@@ -108,6 +110,7 @@ public class BigNumber {
      * @param other
      * @return
      */
+    //TODO: refactor this function as i did in the substrack funciton!!!
     public BigNumber addBigNumber (BigNumber other){
         IntNode curr_Index = this._head;
         IntNode other_Index = other._head;
@@ -174,6 +177,20 @@ public class BigNumber {
 
     /**
      *
+     * @param num
+     * @return
+     */
+    public BigNumber addLong (long num){
+        BigNumber result = new BigNumber();
+        BigNumber num_Big_Number = new BigNumber(num);
+
+        result.addBigNumber(num_Big_Number);
+
+        return result;
+    }
+
+    /**
+     *
      * @param other
      * @return
      */
@@ -190,22 +207,41 @@ public class BigNumber {
         }
         // If This BigNumber is bigger then other -
         else if(this.compareTo(other) == 1){
-            return substractTwoBigNumbers(this,other,result);
+            return subtractTwoBigNumbers(this,other,result);
         }
         // If this not equal to other and the other BigNumber is bigger then him, he must be smaller then him -
         else{
-            return substractTwoBigNumbers(other,this,result);
+            return subtractTwoBigNumbers(other,this,result);
         }
+    }
+
+    public BigNumber multBigNumber (BigNumber other){
+        // Will hold my result -
+        BigNumber result = new BigNumber();
+
+        //TODO: i think this is unnessery ?!
+        if(other == null){
+            return null;
+        }
+        // If This BigNumber is bigger then other -
+        else if(this.compareTo(other) == 1){
+            return multiplyTwoBigNumbers(this,other,result);
+        }
+        // If this not equal to other and the other BigNumber is bigger then him, he must be smaller then him -
+        else{
+            return multiplyTwoBigNumbers(other,this,result);
+        }
+        //multiplyTwoBigNumbers
     }
 
     //------------------------------------------------------------------------------------------------------------------
     // Private Methods of this class -
     //TODO: Private Method that i need to add API!!!
-    private BigNumber substractTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
+    private BigNumber subtractTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
         IntNode curr_Index = this._head;
         IntNode other_Index = other._head;
 
-        int temp_Sum = 0, single_Num_Of_Sum = 0;
+        int temp_Sum = 0;
         IntNode result_Index = result._head;
 
         while (curr_Index != null){
@@ -234,6 +270,42 @@ public class BigNumber {
             else if(other_Index == null){
                 other_Index = new IntNode(0);
             }
+            curr_Index = curr_Index.getNext();
+        }
+        return result;
+    }
+
+    private BigNumber multiplyTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
+        IntNode curr_Index = this._head;
+        IntNode other_Index;
+
+        int temp_Sum = 0, single_Num_Of_Sum = 0;
+        IntNode result_Index = result._head;
+
+        while (curr_Index != null){
+
+            other_Index = other._head;
+
+            while(other_Index != null){
+
+                temp_Sum = curr_Index.getValue() * other_Index.getValue();
+
+                if(temp_Sum > 10){
+                    result_Index.getNext().setValue(result_Index.getNext().getValue() + (temp_Sum / 10));
+                }
+
+                result_Index.setValue(result_Index.getValue() + (temp_Sum % 10));
+                temp_Sum = 0;
+
+                if(other_Index.getNext() != null) {
+                    // Create the next spot and going to point it -
+                    result_Index.setNext(new IntNode(0));
+                    result_Index = result_Index.getNext();
+
+                    other_Index = other_Index.getNext();
+                }
+            }
+            // Getting the next figure
             curr_Index = curr_Index.getNext();
         }
         return result;
