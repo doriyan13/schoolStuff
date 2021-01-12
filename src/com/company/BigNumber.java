@@ -62,5 +62,22 @@ public class BigNumber {
         }
     }
 
+    /**
+     * This method return the
+     * @return
+     */
+    public String toString(){
+        String result = "";
+        IntNode curr_Node = _head;
 
+        while(curr_Node != null){
+            if(curr_Node.getNext() != null && curr_Node.getValue() != 0){
+                result = this._head.getValue() + result;
+            }
+            // Getting the next figure in the number -
+            curr_Node = curr_Node.getNext();
+        }
+        // Return the final String -
+        return result;
+    }
 }
