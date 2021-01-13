@@ -32,7 +32,7 @@ public class BigNumber {
             IntNode curr_Node = _head;
 
             // Now i'm going to loop throughtout the rest of the number and conntect the rest of the number -
-            while(num >0){
+            while((num / 10) >0){
                 num = num / 10;
                 curr_Node.setNext(new IntNode((int) num % 10));
                 curr_Node = curr_Node.getNext();
@@ -175,6 +175,9 @@ public class BigNumber {
         // Will hold my result -
         BigNumber result = new BigNumber();
 
+        if(this.compareTo(result)==0 || other.compareTo(result)== 0){
+            return result;
+        }
         // If This BigNumber is bigger then other -
         if(this.compareTo(other) == 1){
             return multiplyTwoBigNumbers(this,other,result);
@@ -215,15 +218,15 @@ public class BigNumber {
                     result_Index.getNext().setValue(result_Index.getNext().getValue() + (temp_Sum / 10));
                 }
             }
-            if(curr_Index.getNext() != null && temp_Sum != 0) {
+            //if(curr_Index != null && temp_Sum != 0) {
                 result_Index.setValue(result_Index.getValue() + (temp_Sum % 10));
-            }
+           // }
             temp_Sum = 0;
 
             if(other_Index.getNext() != null && flag == true){
                 other_Index = other_Index.getNext();
             }
-            else if(other_Index == null){
+            else if(other_Index.getNext() == null && other_Index.getValue() != 0){
                 other_Index = new IntNode(0);
                 flag = false;
             }
@@ -280,35 +283,46 @@ public class BigNumber {
     private BigNumber multiplyTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
         IntNode curr_Index = bigger_Big_Number._head;
         IntNode other_Index;
+        IntNode result_Index;
+        int pow_Counter = 1;
 
         int temp_Sum = 0;
-        IntNode result_Index = result._head;
 
         while (curr_Index != null){
 
+            result_Index = result._head;
+            for(int i = 1; i < pow_Counter; i++){
+                result_Index = result_Index.getNext();
+            }
             other_Index = other._head;
 
             while(other_Index != null){
 
-                temp_Sum = curr_Index.getValue() * other_Index.getValue();
-
-                if(temp_Sum > 10){
-                    result_Index.getNext().setValue(result_Index.getNext().getValue() + (temp_Sum / 10));
+                if(result_Index.getNext() == null) {
+                    result_Index.setNext(new IntNode(0));
                 }
 
-                result_Index.setValue(result_Index.getValue() + (temp_Sum % 10));
+                temp_Sum = ((curr_Index.getValue()) * other_Index.getValue()) + result_Index.getValue();
+
+                if(temp_Sum >= 10){
+                    if(result_Index.getNext() == null) {
+                        // Create the next spot and going to point it -
+                        result_Index.setNext(new IntNode(0));
+                    }
+                    result_Index.getNext().setValue(result_Index.getNext().getValue() +(temp_Sum / 10));
+                }
+
+                //if(curr_Index.getNext() != null && temp_Sum != 0) {
+                    result_Index.setValue((temp_Sum % 10));
+                //}
                 temp_Sum = 0;
 
-                if(other_Index.getNext() != null) {
-                    // Create the next spot and going to point it -
-                    result_Index.setNext(new IntNode(0));
-                    result_Index = result_Index.getNext();
-
-                    other_Index = other_Index.getNext();
-                }
+                result_Index = result_Index.getNext();
+                other_Index = other_Index.getNext();
             }
             // Getting the next figure
             curr_Index = curr_Index.getNext();
+            pow_Counter++;
         }
         return result;
     }

@@ -35,11 +35,14 @@ public class BigNumberDoriTester {
         BigNumber bn5 = bn4.addLong(1111111111);
         System.out.println("after add long method: " + bn5.toString());
 
-        BigNumber bn6 = bn5.subtractBigNumber(bn2);
-        System.out.println("after subtract: " + bn6.toString());
+//        BigNumber bn8 = bn5.multBigNumber(bn1);
+//        System.out.println("after multipling bn5*bn1: "+bn8.toString());
 
-        BigNumber bn7 = bn6.subtractBigNumber(bn2);
-        System.out.println("after subtract #2: " + bn7.toString());
+//        BigNumber bn6 = bn5.subtractBigNumber(bn2);
+//        System.out.println("after subtract: " + bn6.toString());
+//
+//        BigNumber bn7 = bn6.subtractBigNumber(bn2);
+//        System.out.println("after subtract #2: " + bn7.toString());
 
 
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
