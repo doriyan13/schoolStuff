@@ -6,11 +6,6 @@ package com.company;
  * @version 31/12/2020.
  */
 public class Ex14 {
-    //TODO: Write API for all the methods.
-    //TODO: write the complex runTime as part of the API
-    //TODO: all the methods must be in this class!
-    //TODO: varify that i worte all the class names correctly and test the class in BlueJ!
-
     /**
      * This method that get an Array that each number in the array will appear twice in a row (one after the another), except one.
      * The method return the number that appears only once.
@@ -225,7 +220,6 @@ public class Ex14 {
         }
         return a[start_Of_Array];  // Will get here if start_Of_Array == end_Of_Array , and in this scenario that's mean the single number is the final spot left (it's doesn't matter if you choose the start index or the end index because in this scenario they are equals).
     }
-//TODO: finish to go over this part and you done! (@DoriyanEsterin) -
 
     // Recursion method to calculate all the possibilities. return the amount of options.
     // x1 - The first number in the equation.
@@ -236,14 +230,12 @@ public class Ex14 {
     // Return - The amount of solutions for this equation - x1 + x2 + x3 = num,
     //          and this method also print each solution in separate line.
     //          if num < 3 or num > 30 the method will return 0.
-    public static int solutions(int x1, int x2, int x3, int num, int[] arr_All_Combinations){
+    private static int solutions(int x1, int x2, int x3, int num, int[] arr_All_Combinations){
         // The recursion stop point - when all the 3 numbers x1,x2,x3 got to 10;
         if(x1 == 10 && x2 == 10 && x3 == 10){
             return 0;
         }
         // Define an index that let me know where am i at in the array that hold all the possibilities.
-        // A way to improve the code and make it way faster is to use a map and index the keys of each combination and thus reduces the run time.
-        // also the fact i can't use loops make me use recursion to loop through the array i create in recursion.
         int index = openSpot(arr_All_Combinations,0); // openSpot is a private method i created to loop through my array of combinations and see if  i'm already have this combination.
 
         // Checking if the sum of x1,x2 and x3 is equals to num and i don't have this combination yet or maximized the possibilities that exist (if i did index == -1)
