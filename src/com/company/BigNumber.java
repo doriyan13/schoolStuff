@@ -238,13 +238,15 @@ public class BigNumber {
         return result;
     }
 
-
     // Private Methods of this class -
     //TODO: Private Method that i need to add API!!!
     private BigNumber subtractTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
         IntNode curr_Index = bigger_Big_Number._head;
         IntNode other_Index = other._head;
         boolean flag = true;
+
+        // I think that for this one i need to copy the full BiggerBigNumber and then start edit the big num! (as of right now it's doesn't rembmber the changes thats why its wrong!
+
 
         int temp_Sum = 0;
         IntNode result_Index = result._head;
@@ -253,29 +255,36 @@ public class BigNumber {
             //TODO: see what happen when you try to add null with val?
             temp_Sum = curr_Index.getValue() - other_Index.getValue();
 
+            if(curr_Index.getNext() != null && result_Index.getNext() == null) {
+                result_Index.setNext(new IntNode(0));
+            }
+
             if(temp_Sum < 0){
+
+                if(result_Index.getNext() == null) {
+                    // Create the next spot and going to point it -
+                    result_Index.setNext(new IntNode(0));
+                }
+
                 // moving the bigger number -1 :
-                result_Index.getNext().setValue(result_Index.getValue() - 1);
-                temp_Sum = 10 - temp_Sum;
+                result_Index.getNext().setValue(curr_Index.getValue() - 1);
+                temp_Sum = 10 + temp_Sum + result_Index.getValue(); // temp_Sum is negetive!!
             }
             //Setting the finale result of this figure -
             result_Index.setValue(temp_Sum);
             // Resetting the sum after filling him -
             temp_Sum = 0;
 
-            if(other_Index.getNext() != null) {
-                // Create the next spot and going to point it -
-                result_Index.setNext(new IntNode(0));
-                result_Index = result_Index.getNext();
-            }
             // Go to the next spot in each BigNumber -
-            if(other_Index != null && flag == true) {
+            if(other_Index.getNext() != null && flag == true){
                 other_Index = other_Index.getNext();
             }
-            else if(other_Index == null){
+            else if(other_Index.getNext() == null && other_Index.getValue() != 0){
                 other_Index = new IntNode(0);
+                flag = false;
             }
             curr_Index = curr_Index.getNext();
+            result_Index = result_Index.getNext();
         }
         return result;
     }
