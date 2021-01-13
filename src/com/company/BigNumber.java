@@ -7,8 +7,6 @@ package com.company;
 public class BigNumber {
 
     //TODO: fill all the api!
-    //TODO: i think i made a stackover flow some how because of all the loops or somthing like this, this test taking wayyy to much time and such,
-    //TODO: as always start by testing 1 after 1 and then refactor the code to be faster and in the end run total , cause now it give memeroy error!
 
     // Define class variables -
     private IntNode _head;
@@ -35,6 +33,7 @@ public class BigNumber {
 
             // Now i'm going to loop throughtout the rest of the number and conntect the rest of the number -
             while(num >0){
+                num = num / 10;
                 curr_Node.setNext(new IntNode((int) num % 10));
                 curr_Node = curr_Node.getNext();
             }
@@ -65,18 +64,21 @@ public class BigNumber {
     }
 
     /**
-     * This method return the
-     * @return
+     * This method return a String that represents a BigNumber.
+     * @return A String that represents a BigNumber.
      */
     public String toString(){
         //TODO: this method must be in O(n) -
 
-        String result = "";
-        IntNode curr_Node = _head;
+        String result = "" + this._head.getValue();
+        IntNode curr_Node = _head.getNext();
 
         while(curr_Node != null){
-            if(curr_Node.getNext() != null && curr_Node.getValue() != 0){
-                result = this._head.getValue() + result;
+            if(curr_Node.getValue() != 0){
+                result = curr_Node.getValue() + result;
+            }
+            else if(curr_Node.getNext() != null){
+                result = curr_Node.getValue() + result;
             }
             // Getting the next figure in the number -
             curr_Node = curr_Node.getNext();
@@ -99,10 +101,17 @@ public class BigNumber {
         if(curr_Big_Number.length() < other_Big_Number.length()){
             return -1;
         }
-        else {
-            //TODO: need to ask if i can use compareTo ofString? if not then i must count my self and test!!!
-            return curr_Big_Number.compareTo(other_Big_Number);
+
+        for(int i = 0;i < curr_Big_Number.length();i++){
+            if(curr_Big_Number.charAt(i) > other_Big_Number.charAt(i)){
+                return 1;
+            }
+            if(curr_Big_Number.charAt(i) < other_Big_Number.charAt(i)){
+                return -1;
+            }
         }
+        return 0;
+
     }
 
     /**
@@ -112,67 +121,17 @@ public class BigNumber {
      */
     //TODO: refactor this function as i did in the substrack funciton!!!
     public BigNumber addBigNumber (BigNumber other){
-        IntNode curr_Index = this._head;
-        IntNode other_Index = other._head;
-
-        int temp_Sum = 0, single_Num_Of_Sum = 0;
-        // First i will start by creating the new BigNumber that will have a defined _head.
+        // Will hold my result -
         BigNumber result = new BigNumber();
-        IntNode result_Index = result._head;
 
-        while (other_Index != null){
-            //TODO: see what happen when you try to add null with val?
-            temp_Sum += curr_Index.getValue() + other_Index.getValue();
-            single_Num_Of_Sum = temp_Sum % 10;
-            // Sending an integer to a method that expect Long, yet it's fine because in the compilation and run time java know how to handle it automaticly!
-            result_Index.setValue(single_Num_Of_Sum);
-            // Maintain the extra that left -
-            temp_Sum -= single_Num_Of_Sum;
-
-            if(other_Index.getNext() != null) {
-                // Create the next spot and going to point it -
-                result_Index.setNext(new IntNode(0));
-                result_Index = result_Index.getNext();
-            }
-            // Go to the next spot in each BigNumber -
-            if(curr_Index != null) {
-                curr_Index = curr_Index.getNext();
-            }
-            other_Index = other_Index.getNext();
+        // If This BigNumber is bigger then other -
+        if(this.compareTo(other) == 1){
+            return addTwoBigNumbers(this,other,result);
         }
-
-        if(temp_Sum > 0){
-            while (curr_Index != null){
-
-                temp_Sum += curr_Index.getValue();
-                single_Num_Of_Sum = temp_Sum % 10;
-                // Sending an integer to a method that expect Long, yet it's fine because in the compilation and run time java know how to handle it automaticly!
-                result_Index.setValue(single_Num_Of_Sum);
-                // Maintain the extra that left -
-                temp_Sum -= single_Num_Of_Sum;
-
-                if(curr_Index.getNext() != null) {
-                    // Create the next spot and going to point it -
-                    result_Index.setNext(new IntNode(0));
-                    result_Index = result_Index.getNext();
-                }
-            }
-
-            while (temp_Sum > 0){
-                single_Num_Of_Sum = temp_Sum % 10;
-                // Sending an integer to a method that expect Long, yet it's fine because in the compilation and run time java know how to handle it automaticly!
-                result_Index.setValue(single_Num_Of_Sum);
-                // Maintain the extra that left -
-                temp_Sum -= single_Num_Of_Sum;
-
-                if(temp_Sum > 0) {
-                    // Create the next spot and going to point it -
-                    result_Index.setNext(new IntNode(0));
-                    result_Index = result_Index.getNext();
-                }
-            }
+        // If this not equal to other and the other BigNumber is bigger then him, he must be smaller then him -
+        else{
+            return addTwoBigNumbers(other,this,result);
         }
-        return result;
     }
 
     /**
@@ -181,10 +140,10 @@ public class BigNumber {
      * @return
      */
     public BigNumber addLong (long num){
-        BigNumber result = new BigNumber();
+
         BigNumber num_Big_Number = new BigNumber(num);
 
-        result.addBigNumber(num_Big_Number);
+        BigNumber result = this.addBigNumber(num_Big_Number);
 
         return result;
     }
@@ -202,9 +161,6 @@ public class BigNumber {
         if(this.compareTo(other) == 0){
             return result;
         }
-        if(other == null){
-            return new BigNumber(this);
-        }
         // If This BigNumber is bigger then other -
         else if(this.compareTo(other) == 1){
             return subtractTwoBigNumbers(this,other,result);
@@ -219,27 +175,73 @@ public class BigNumber {
         // Will hold my result -
         BigNumber result = new BigNumber();
 
-        //TODO: i think this is unnessery ?!
-        if(other == null){
-            return null;
-        }
         // If This BigNumber is bigger then other -
-        else if(this.compareTo(other) == 1){
+        if(this.compareTo(other) == 1){
             return multiplyTwoBigNumbers(this,other,result);
         }
         // If this not equal to other and the other BigNumber is bigger then him, he must be smaller then him -
         else{
             return multiplyTwoBigNumbers(other,this,result);
         }
-        //multiplyTwoBigNumbers
     }
 
     //------------------------------------------------------------------------------------------------------------------
+    private BigNumber addTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
+        IntNode curr_Index = bigger_Big_Number._head;
+        IntNode other_Index =other._head;
+        boolean flag = true;
+
+        int temp_Sum = 0;
+        IntNode result_Index = result._head;
+
+        while (curr_Index != null){
+
+            temp_Sum = curr_Index.getValue() + other_Index.getValue();
+
+            if(curr_Index.getNext() != null && result_Index.getNext() == null) {
+                result_Index.setNext(new IntNode(0));
+            }
+
+            if(temp_Sum >= 10){
+                if(result_Index.getNext() == null) {
+                    // Create the next spot and going to point it -
+                    result_Index.setNext(new IntNode(0));
+                }
+
+                if(curr_Index.getNext() != null) {
+                    result_Index.getNext().setValue(temp_Sum / 10);
+                }
+                else{
+                    result_Index.getNext().setValue(result_Index.getNext().getValue() + (temp_Sum / 10));
+                }
+            }
+            if(curr_Index.getNext() != null && temp_Sum != 0) {
+                result_Index.setValue(result_Index.getValue() + (temp_Sum % 10));
+            }
+            temp_Sum = 0;
+
+            if(other_Index.getNext() != null && flag == true){
+                other_Index = other_Index.getNext();
+            }
+            else if(other_Index == null){
+                other_Index = new IntNode(0);
+                flag = false;
+            }
+
+            // Getting the next figure
+            curr_Index = curr_Index.getNext();
+            result_Index = result_Index.getNext();
+        }
+        return result;
+    }
+
+
     // Private Methods of this class -
     //TODO: Private Method that i need to add API!!!
     private BigNumber subtractTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
-        IntNode curr_Index = this._head;
+        IntNode curr_Index = bigger_Big_Number._head;
         IntNode other_Index = other._head;
+        boolean flag = true;
 
         int temp_Sum = 0;
         IntNode result_Index = result._head;
@@ -264,7 +266,7 @@ public class BigNumber {
                 result_Index = result_Index.getNext();
             }
             // Go to the next spot in each BigNumber -
-            if(other_Index != null) {
+            if(other_Index != null && flag == true) {
                 other_Index = other_Index.getNext();
             }
             else if(other_Index == null){
@@ -276,10 +278,10 @@ public class BigNumber {
     }
 
     private BigNumber multiplyTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
-        IntNode curr_Index = this._head;
+        IntNode curr_Index = bigger_Big_Number._head;
         IntNode other_Index;
 
-        int temp_Sum = 0, single_Num_Of_Sum = 0;
+        int temp_Sum = 0;
         IntNode result_Index = result._head;
 
         while (curr_Index != null){
