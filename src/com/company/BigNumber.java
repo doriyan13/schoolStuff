@@ -45,7 +45,7 @@ public class BigNumber {
      * @param big_Num - a BigNumber instance, which is a NodeList that represent a very long number.
      */
     public BigNumber(BigNumber big_Num){
-        if(big_Num._head.getNext() == null){
+        if(big_Num._head == null){
             _head = new IntNode(0);
         }
         else{
@@ -56,7 +56,7 @@ public class BigNumber {
 
             // Now i'm going to loop throughtout the rest of the list and copy the rest of the number -
             while(big_Num_Index != null){
-                curr_Node_New.setNext(big_Num_Index);
+                curr_Node_New.setNext(new IntNode(big_Num_Index.getValue()));
                 curr_Node_New = curr_Node_New.getNext();
                 big_Num_Index = big_Num_Index.getNext();
             }
@@ -92,6 +92,7 @@ public class BigNumber {
      * @param other
      * @return
      */
+    //TODO: need to re- do it with reverse function and such from the lesson!!!
     public int compareTo (BigNumber other){
         String curr_Big_Number = this.toString();
         String other_Big_Number = other.toString();
@@ -155,19 +156,25 @@ public class BigNumber {
      */
     public BigNumber subtractBigNumber(BigNumber other){
         // Will hold my result -
-        BigNumber result = new BigNumber();
+        BigNumber result = new BigNumber(0); // Because this is subtract action i will copy the original number and then edit it!
 
         // If they are equal -
         if(this.compareTo(other) == 0){
-            return result;
+            return new BigNumber(0);
+        }
+        if(this.compareTo(result) == 0){
+            return new BigNumber(other);
+        }
+        if(other.compareTo(result) == 0){
+            return new BigNumber(this);
         }
         // If This BigNumber is bigger then other -
         else if(this.compareTo(other) == 1){
-            return subtractTwoBigNumbers(this,other,result);
+            return subtractTwoBigNumbers2(this,other,new BigNumber(this));
         }
         // If this not equal to other and the other BigNumber is bigger then him, he must be smaller then him -
         else{
-            return subtractTwoBigNumbers(other,this,result);
+            return subtractTwoBigNumbers2(other,this,new BigNumber(other));
         }
     }
 
@@ -219,6 +226,7 @@ public class BigNumber {
                 }
             }
             //if(curr_Index != null && temp_Sum != 0) {
+                // idont need result value casue i count it already?
                 result_Index.setValue(result_Index.getValue() + (temp_Sum % 10));
            // }
             temp_Sum = 0;
@@ -288,6 +296,69 @@ public class BigNumber {
         }
         return result;
     }
+
+    private BigNumber subtractTwoBigNumbers2(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
+        IntNode curr_Index = result._head;
+        IntNode other_Index = other._head;
+        boolean flag = true;
+
+        // I think that for this one i need to copy the full BiggerBigNumber and then start edit the big num! (as of right now it's doesn't rembmber the changes thats why its wrong!
+
+
+        int temp_Sum = 0;
+        //IntNode result_Index = result._head;
+
+        while (curr_Index != null){
+            //TODO: see what happen when you try to add null with val?
+            temp_Sum = curr_Index.getValue() - other_Index.getValue();
+
+            if(temp_Sum < 0 && curr_Index.getNext() != null){
+
+                // moving the bigger number -1 :
+                curr_Index.getNext().setValue(curr_Index.getNext().getValue() - 1);
+                temp_Sum = 10 + temp_Sum; // temp_Sum is negetive!!
+            }
+            //Setting the finale result of this figure -
+            curr_Index.setValue(temp_Sum);
+            // Resetting the sum after filling him -
+            temp_Sum = 0;
+
+            // Go to the next spot in each BigNumber -
+            if(other_Index.getNext() != null && flag == true){
+                other_Index = other_Index.getNext();
+            }
+            else if(other_Index.getNext() == null && other_Index.getValue() != 0){
+                other_Index = new IntNode(0);
+                flag = false;
+            }
+            curr_Index = curr_Index.getNext();
+        }
+        return result;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private BigNumber multiplyTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
         IntNode curr_Index = bigger_Big_Number._head;
