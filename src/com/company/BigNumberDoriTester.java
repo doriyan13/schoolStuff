@@ -21,6 +21,16 @@ public class BigNumberDoriTester {
         BigNumber bn3 = new BigNumber(bn2);
         System.out.println(bn3);
 
+        //System.out.println("suppose to be 0: " + bn2.compareTo(bn3) );
+        BigNumber testerNegetive = new BigNumber(1313131311);
+
+        //bn2.subtractBigNumber(testerNegetive);
+        System.out.println(bn2);
+        System.out.println(bn3);
+        System.out.println("suppose to be 1: " + bn2.compareTo(testerNegetive) );
+
+
+
         System.out.println("is bn2 equals to bn3 (Yes): " + bn2.compareTo(bn3));
         System.out.println("is bn3 equals to bn2 (Yes): " + bn3.compareTo(bn2));
         BigNumber c1 = new BigNumber(18475529);
@@ -35,14 +45,14 @@ public class BigNumberDoriTester {
         BigNumber bn5 = bn4.addLong(1111111111);
         System.out.println("after add long method: " + bn5.toString());
 
-//        BigNumber bn8 = bn5.multBigNumber(bn1);
-//        System.out.println("after multipling bn5*bn1: "+bn8.toString());
+        BigNumber bn8 = bn5.multBigNumber(bn1);
+        System.out.println("after multipling bn5*bn1: "+bn8.toString());
 
-//        BigNumber bn6 = bn5.subtractBigNumber(bn2);
-//        System.out.println("after subtract: " + bn6.toString());
-//
-//        BigNumber bn7 = bn6.subtractBigNumber(bn2);
-//        System.out.println("after subtract #2: " + bn7.toString());
+        BigNumber bn6 = bn5.subtractBigNumber(bn2);
+        System.out.println("after subtract: " + bn6.toString());
+
+        BigNumber bn7 = bn6.subtractBigNumber(bn2);
+        System.out.println("after subtract #2: " + bn7.toString());
 
 
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");

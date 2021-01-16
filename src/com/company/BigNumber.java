@@ -93,24 +93,81 @@ public class BigNumber {
      * @return
      */
     //TODO: need to re- do it with reverse function and such from the lesson!!!
-    public int compareTo (BigNumber other){
-        String curr_Big_Number = this.toString();
-        String other_Big_Number = other.toString();
-        if(curr_Big_Number.length() > other_Big_Number.length()){
+//    public int compareTo (BigNumber other){
+//        String curr_Big_Number = this.toString();
+//        String other_Big_Number = other.toString();
+//        if(curr_Big_Number.length() > other_Big_Number.length()){
+//            return 1;
+//        }
+//        if(curr_Big_Number.length() < other_Big_Number.length()){
+//            return -1;
+//        }
+//
+//        for(int i = 0;i < curr_Big_Number.length();i++){
+//            if(curr_Big_Number.charAt(i) > other_Big_Number.charAt(i)){
+//                return 1;
+//            }
+//            if(curr_Big_Number.charAt(i) < other_Big_Number.charAt(i)){
+//                return -1;
+//            }
+//        }
+//        return 0;
+//
+//    }
+
+    /**
+     *
+     * @param other
+     * @return
+     */
+    public int compareTo(BigNumber other){
+
+        long curr_Amount_Of_Figures = this.length();
+        long other_Amount_Of_Figures = other.length();
+
+        if(curr_Amount_Of_Figures > other_Amount_Of_Figures){
             return 1;
         }
-        if(curr_Big_Number.length() < other_Big_Number.length()){
+        if(curr_Amount_Of_Figures < other_Amount_Of_Figures){
             return -1;
         }
-
-        for(int i = 0;i < curr_Big_Number.length();i++){
-            if(curr_Big_Number.charAt(i) > other_Big_Number.charAt(i)){
+        if(curr_Amount_Of_Figures == 1 && other_Amount_Of_Figures == 1){
+            if(this._head.getValue() == other._head.getValue()){
+                return 0;
+            }
+            else if(this._head.getValue() > other._head.getValue()){
                 return 1;
             }
-            if(curr_Big_Number.charAt(i) < other_Big_Number.charAt(i)){
+            else{
                 return -1;
             }
         }
+        if(this.equals(other)){
+            return 0;
+        }
+        BigNumber rev_Curr_Big_Number = new BigNumber(this);
+        BigNumber rev_Other_Big_Number = new BigNumber(other);
+
+        rev_Curr_Big_Number.reverse();
+        rev_Other_Big_Number.reverse();
+
+        IntNode curr_Index = rev_Curr_Big_Number._head;
+        IntNode other_Index = rev_Other_Big_Number._head;
+        // Will enter this loop only when both of them are equal in size therefore you need to watch only one of them !
+        while(curr_Index != null){
+            // Current BigNumber is bigger then other -
+            if(curr_Index.getValue() > other_Index.getValue()){
+                return 1;
+            }
+            // Current BigNumber is smaller then other -
+            if(curr_Index.getValue() < other_Index.getValue()){
+                return -1;
+            }
+            // If both of them are still equal continue to the next one -
+            curr_Index = curr_Index.getNext();
+            other_Index = other_Index.getNext();
+        }
+        // If they are equal then return 0 -
         return 0;
 
     }
@@ -196,6 +253,12 @@ public class BigNumber {
     }
 
     //------------------------------------------------------------------------------------------------------------------
+    // ***************************************************************************
+    // Private methods i wrote in this Maman (14) to build cleaner public methods:
+    // ***************************************************************************
+
+
+    //
     private BigNumber addTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
         IntNode curr_Index = bigger_Big_Number._head;
         IntNode other_Index =other._head;
@@ -246,57 +309,7 @@ public class BigNumber {
         return result;
     }
 
-    // Private Methods of this class -
-    //TODO: Private Method that i need to add API!!!
-    private BigNumber subtractTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
-        IntNode curr_Index = bigger_Big_Number._head;
-        IntNode other_Index = other._head;
-        boolean flag = true;
-
-        // I think that for this one i need to copy the full BiggerBigNumber and then start edit the big num! (as of right now it's doesn't rembmber the changes thats why its wrong!
-
-
-        int temp_Sum = 0;
-        IntNode result_Index = result._head;
-
-        while (curr_Index != null){
-            //TODO: see what happen when you try to add null with val?
-            temp_Sum = curr_Index.getValue() - other_Index.getValue();
-
-            if(curr_Index.getNext() != null && result_Index.getNext() == null) {
-                result_Index.setNext(new IntNode(0));
-            }
-
-            if(temp_Sum < 0){
-
-                if(result_Index.getNext() == null) {
-                    // Create the next spot and going to point it -
-                    result_Index.setNext(new IntNode(0));
-                }
-
-                // moving the bigger number -1 :
-                result_Index.getNext().setValue(curr_Index.getValue() - 1);
-                temp_Sum = 10 + temp_Sum + result_Index.getValue(); // temp_Sum is negetive!!
-            }
-            //Setting the finale result of this figure -
-            result_Index.setValue(temp_Sum);
-            // Resetting the sum after filling him -
-            temp_Sum = 0;
-
-            // Go to the next spot in each BigNumber -
-            if(other_Index.getNext() != null && flag == true){
-                other_Index = other_Index.getNext();
-            }
-            else if(other_Index.getNext() == null && other_Index.getValue() != 0){
-                other_Index = new IntNode(0);
-                flag = false;
-            }
-            curr_Index = curr_Index.getNext();
-            result_Index = result_Index.getNext();
-        }
-        return result;
-    }
-
+    //
     private BigNumber subtractTwoBigNumbers2(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
         IntNode curr_Index = result._head;
         IntNode other_Index = other._head;
@@ -336,30 +349,7 @@ public class BigNumber {
         return result;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //
     private BigNumber multiplyTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
         IntNode curr_Index = bigger_Big_Number._head;
         IntNode other_Index;
@@ -405,5 +395,36 @@ public class BigNumber {
             pow_Counter++;
         }
         return result;
+    }
+
+    // This method reversing the order of my BigNumber -
+    // Return - a new BigNumber that is the reverse of curr_Big_Number.
+    private void reverse(){
+        // Define variables -
+        IntNode new_Head = null;
+        IntNode p;
+
+        // Reverse my Node List order -
+        while (this._head != null){
+            p = this._head;
+            this._head =  this._head.getNext();
+            p.setNext(new_Head);
+            new_Head = p;
+        }
+
+        this._head = new_Head;
+    }
+
+    // This function get a BigNumber and return the amount of figures the number have.
+    // Return - the amount of figures the BigNumber have.
+    private long length(){
+        int counter = 0;
+        IntNode index = this._head;
+
+        while (index != null){
+            counter++;
+            index = index.getNext();
+        }
+        return counter;
     }
 }
