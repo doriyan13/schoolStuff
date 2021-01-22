@@ -234,11 +234,11 @@ public class BigNumber {
         }
         // If This BigNumber is bigger then other -
         else if(this.compareTo(other) == 1){
-            return subtractTwoBigNumbers2(this,other,new BigNumber(this));
+            return subtractTwoBigNumbers2(other,new BigNumber(this));
         }
         // If this not equal to other and the other BigNumber is bigger then him, he must be smaller then him -
         else{
-            return subtractTwoBigNumbers2(other,this,new BigNumber(other));
+            return subtractTwoBigNumbers2(this,new BigNumber(other));
         }
     }
 
@@ -274,42 +274,48 @@ public class BigNumber {
     // Private methods i wrote in this Maman (15) to build cleaner public methods:
     // ***************************************************************************
 
-    //
+    // This method is getting 3 BigNumbers - 2 represent 2 BigNumbers and the third will represent the result of the addition of both of them.
+    // This method will return the addition result of the 2 BigNumbers.
     private BigNumber addTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
-        IntNode curr_Index = bigger_Big_Number._head;
-        IntNode other_Index =other._head;
-        boolean flag = true;
+        // Define variables -
+        IntNode curr_Index = bigger_Big_Number._head; // Index of the Bigger BigNumber.
+        IntNode other_Index =other._head; // Index of the smaller BigNumber.
+        boolean flag = true; // A flag that represent that i can keep go through other.
+        int temp_Sum = 0; // A temporery sum of the current 2 figures
+        IntNode result_Index = result._head; // Index of the result BigNumber.
 
-        int temp_Sum = 0;
-        IntNode result_Index = result._head;
-
+        // Loop through the Bigger BigNumber and other figures and fill result with the addition between them -
         while (curr_Index != null){
-
+            // The sum of current BigNumber and other BigNumber -
             temp_Sum = curr_Index.getValue() + other_Index.getValue();
-
+            // If the current BigNumber have more figures and result don't have - i will add one more node to result -
             if(curr_Index.getNext() != null && result_Index.getNext() == null) {
                 result_Index.setNext(new IntNode(0));
             }
 
             if(temp_Sum >= 10){
+                // If the sum of current BigNumber and other BigNumber is bigger then 10 and result don't have more figures - i will add one more node to result -
                 if(result_Index.getNext() == null) {
                     // Create the next spot and going to point it -
                     result_Index.setNext(new IntNode(0));
                 }
-
+                // If the Bigger BigNumber have a next figure -
                 if(curr_Index.getNext() != null) {
                     result_Index.getNext().setValue(temp_Sum / 10);
                 }
                 else{
+                    // If the Bigger BigNumber don't have a next figure then just set the final next value in result -
                     result_Index.getNext().setValue(result_Index.getNext().getValue() + (temp_Sum / 10));
                 }
             }
+            // Set the current value of the figure and reset the temp sum for the next run -
             result_Index.setValue(result_Index.getValue() + (temp_Sum % 10));
             temp_Sum = 0;
-
+            // If other have a next figure go to the next one -
             if(other_Index.getNext() != null && flag == true){
                 other_Index = other_Index.getNext();
             }
+            // If other dont have a next figure then set the index to point on an IntNode that hold 0 - (also change the flag to false to prevent keep moving on other and repeat the creation of the empty IntNode)
             else if(other_Index.getNext() == null && other_Index.getValue() != 0){
                 other_Index = new IntNode(0);
                 flag = false;
@@ -319,27 +325,23 @@ public class BigNumber {
             curr_Index = curr_Index.getNext();
             result_Index = result_Index.getNext();
         }
-        return result;
+        return result; // Return the addition result of the 2 BigNumbers.
     }
 
-    //
-    private BigNumber subtractTwoBigNumbers2(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
-        IntNode curr_Index = result._head;
-        IntNode other_Index = other._head;
-        boolean flag = true;
-
-        // I think that for this one i need to copy the full BiggerBigNumber and then start edit the big num! (as of right now it's doesn't rembmber the changes thats why its wrong!
-
-
-        int temp_Sum = 0;
-        //IntNode result_Index = result._head;
-
+    // This method is getting 2 BigNumbers - 2 represent 2 BigNumbers , the result will represent the result of the subtract of both of them.
+    // This method will return the subtract result of the 2 BigNumbers.
+    private BigNumber subtractTwoBigNumbers2(BigNumber other, BigNumber result){
+        // Define variables -
+        IntNode curr_Index = result._head; // Index of the copy of the Bigger BigNumber.
+        IntNode other_Index = other._head; // Index of the smaller BigNumber.
+        boolean flag = true; // A flag that represent that i can keep go through other.
+        int temp_Sum = 0; // A temporery sum of the current 2 figures
+        // Loop through the Bigger BigNumber and other figures and fill result with the subtract between them -
         while (curr_Index != null){
-            //TODO: see what happen when you try to add null with val?
+            // The subtract sum of current BigNumber and other BigNumber -
             temp_Sum = curr_Index.getValue() - other_Index.getValue();
-
+            // If the sum is negative and result have another figure -
             if(temp_Sum < 0 && curr_Index.getNext() != null){
-
                 // moving the bigger number -1 :
                 curr_Index.getNext().setValue(curr_Index.getNext().getValue() - 1);
                 temp_Sum = 10 + temp_Sum; // temp_Sum is negetive!!
@@ -348,66 +350,70 @@ public class BigNumber {
             curr_Index.setValue(temp_Sum);
             // Resetting the sum after filling him -
             temp_Sum = 0;
-
             // Go to the next spot in each BigNumber -
             if(other_Index.getNext() != null && flag == true){
                 other_Index = other_Index.getNext();
             }
+            // If other dont have a next figure then set the index to point on an IntNode that hold 0 - (also change the flag to false to prevent keep moving on other and repeat the creation of the empty IntNode)
             else if(other_Index.getNext() == null && other_Index.getValue() != 0){
                 other_Index = new IntNode(0);
                 flag = false;
             }
+            // Getting the next figure
             curr_Index = curr_Index.getNext();
         }
-        return result;
+        return result; // Return the addition result of the 2 BigNumbers.
     }
 
-    //
+    // This method is getting 3 BigNumbers - 2 represent 2 BigNumbers and the third will represent the result of the multiplication of both of them.
+    // This method will return the multiplication result of the 2 BigNumbers.
     private BigNumber multiplyTwoBigNumbers(BigNumber bigger_Big_Number , BigNumber other, BigNumber result){
-        IntNode curr_Index = bigger_Big_Number._head;
-        IntNode other_Index;
-        IntNode result_Index;
-        int pow_Counter = 1;
-
-        int temp_Sum = 0;
-
+        // Define variables -
+        IntNode curr_Index = bigger_Big_Number._head; // Index of the Bigger BigNumber.
+        IntNode other_Index; // Index of the smaller BigNumber.
+        IntNode result_Index; // Index of the result BigNumber.
+        int pow_Counter = 1; // Index that let me keep track how many figures i need to skip till the next multiplication of the next figure
+        int temp_Sum = 0; // A temporery sum of the current 2 figures
+        // Loop through the Bigger BigNumber and other figures and fill result with the multiplication between them -
         while (curr_Index != null){
-
+            // Each run i reset the result index for the start to keep adding the results and update the current value -
             result_Index = result._head;
+            // For Each run of the while i will up by +1 the pow_Counter and skip the figures that i already covered -
             for(int i = 1; i < pow_Counter; i++){
                 result_Index = result_Index.getNext();
             }
+            // For each run i also need to reset the other number index to start the multiplication of the next figure -
             other_Index = other._head;
-
+            // The second while is to do the multiplication for each figure of other with current BigNumber figure -
             while(other_Index != null){
-
+                // If the result BigNumber don't have more figures - i will add one more node to result -
                 if(result_Index.getNext() == null) {
                     result_Index.setNext(new IntNode(0));
                 }
-
+                // The sum of current BigNumber and other BigNumber multiplication plus result current value -
                 temp_Sum = ((curr_Index.getValue()) * other_Index.getValue()) + result_Index.getValue();
 
                 if(temp_Sum >= 10){
+                    // If the sum of current BigNumber and other BigNumber is bigger then 10 and result don't have more figures - i will add one more node to result -
                     if(result_Index.getNext() == null) {
                         // Create the next spot and going to point it -
                         result_Index.setNext(new IntNode(0));
                     }
+                    // Update the value of the next figure -
                     result_Index.getNext().setValue(result_Index.getNext().getValue() +(temp_Sum / 10));
                 }
-
-                //if(curr_Index.getNext() != null && temp_Sum != 0) {
-                    result_Index.setValue((temp_Sum % 10));
-                //}
+                // Set the value of the current figure -
+                result_Index.setValue((temp_Sum % 10));
                 temp_Sum = 0;
-
+                // Getting other next figure -
                 result_Index = result_Index.getNext();
                 other_Index = other_Index.getNext();
             }
-            // Getting the next figure
+            // Getting current BigNumber next figure -
             curr_Index = curr_Index.getNext();
             pow_Counter++;
         }
-        return result;
+        return result; // Return the multiplication result of the 2 BigNumbers.
     }
 
     // This method reversing the order of my BigNumber -
