@@ -1,6 +1,7 @@
 package com.company;
 
-import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 public class Class09 {
 //Test and Error for mamah02:
@@ -24,13 +25,21 @@ public class Class09 {
 
     public static void main(String[] args){
 
+        Stack<Integer> st = new Stack();
+        Queue<Integer> que = null;
+        que.add(1);
+        que.add(2);
+        que.add(3);
+        que.add(4);
+        que.add(5);
+        que.add(6);
         //System.out.println(Student.f()); abstruct class cannot create an object thus if the method will not be static i won't be able to call her here!
         //System.out.println(Student.f(1.0));
-        String a = "a";
-        String b = "b";
-        System.out.println(a.compareTo(b));
+//        String a = "a";
+//        String b = "b";
+//        System.out.println(a.compareTo(b));
 
-        LinkedList<Integer> test = new LinkedList<Integer>();
+       // LinkedList<Integer> test = new LinkedList<Integer>();
 
 //        Scanner input = new Scanner(System.in);
 //

@@ -92,34 +92,6 @@ public class BigNumber {
      * @param other
      * @return
      */
-    //TODO: need to re- do it with reverse function and such from the lesson!!!
-//    public int compareTo (BigNumber other){
-//        String curr_Big_Number = this.toString();
-//        String other_Big_Number = other.toString();
-//        if(curr_Big_Number.length() > other_Big_Number.length()){
-//            return 1;
-//        }
-//        if(curr_Big_Number.length() < other_Big_Number.length()){
-//            return -1;
-//        }
-//
-//        for(int i = 0;i < curr_Big_Number.length();i++){
-//            if(curr_Big_Number.charAt(i) > other_Big_Number.charAt(i)){
-//                return 1;
-//            }
-//            if(curr_Big_Number.charAt(i) < other_Big_Number.charAt(i)){
-//                return -1;
-//            }
-//        }
-//        return 0;
-//
-//    }
-
-    /**
-     *
-     * @param other
-     * @return
-     */
     public int compareTo(BigNumber other){
 
         long curr_Amount_Of_Figures = this.length();
