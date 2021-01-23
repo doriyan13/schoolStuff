@@ -172,7 +172,7 @@ public class BigNumber {
      * Time complexity - O(n), because in the worst scenario you firstly have to run n + m times to compare between them once and then run n times which represent the amount of figures the Bigger BigNumber have between the both of them.
      * Therefore the Time complexity will remain O(n).
      * Place complexity - O(n), because i create a new BigNumber that represent the addition of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
-     * Therefore i will have in the worst scenario n+1 new figures that i must create so the place complexity will be O(n).
+     * Therefore i will have in the worst scenario n+1 (when n is the number of figures of the bigger BigNumber) new figures that i must create so the place complexity will be O(n).
      * @param other a BigNumber instance, which is a NodeList that represent a very long number that i will add to my current number.
      * @return Return a new BigNumber which is the addition of the current BigNumber and the one you get.
      */
@@ -194,8 +194,8 @@ public class BigNumber {
      * This method is getting 1 Long and return a new BigNumber which is the addition of the current BigNumber and the long you get.
      * Time complexity - O(n), because in the worst scenario you firstly have to run n + m times to compare between them once and then run n times which represent the amount of figures the Bigger BigNumber have between the both of them.
      * Therefore the Time complexity will remain O(n).
-     * Place complexity - O(n), because i create a new BigNumber that represent the addition of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
-     * Therefore i will have in the worst scenario n+1 new figures that i must create so the place complexity will be O(n).
+     * Place complexity - O(n), firstly i create a BigNumber that represents the long (therefore i already in O(n)) and because i create a new BigNumber that represent the addition of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
+     * Therefore i will have in the worst scenario n+1 (when n is the number of figures of the bigger BigNumber) new figures that i must create so the place complexity will be O(n).
      * @param num - a Long instance, which i will add to my current number.
      * @return Return a new BigNumber which is the addition of the current BigNumber and the long you get.
      */
@@ -217,7 +217,7 @@ public class BigNumber {
      */
     public BigNumber subtractBigNumber(BigNumber other){
         // Will hold my result -
-        BigNumber result = new BigNumber(0); // Because this is subtract action i will copy the original number and then edit it!
+        BigNumber result = new BigNumber(0);
 
         // If they are equal -
         if(this.compareTo(other) == 0){
@@ -233,20 +233,22 @@ public class BigNumber {
         }
         // If This BigNumber is bigger then other -
         else if(this.compareTo(other) == 1){
-            return subtractTwoBigNumbers2(other,new BigNumber(this));
+            return subtractTwoBigNumbers2(other,new BigNumber(this)); // Because this is subtract action i will copy the original number and then edit it!
         }
         // If this not equal to other and the other BigNumber is bigger then him, he must be smaller then him -
         else{
-            return subtractTwoBigNumbers2(this,new BigNumber(other));
+            return subtractTwoBigNumbers2(this,new BigNumber(other)); // Because this is subtract action i will copy the original number and then edit it!
         }
     }
 
     /**
      * This method is getting 1 BigNumber and return a new BigNumber which is the multiplication of the BigNumber i get and the current BigNumber i have.
      * Time complexity - O(n^2), because in the worst scenario you firstly have to run n + m times to compare between them 2 times and then run n^2 times because you have to multiply each
-     * figure of the first BigNumber with each figure of the other BigNumber, therefore the time complexity will be O(n^2).
+     * figure of the first BigNumber with each figure of the other BigNumber (n for each j), therefore the time complexity will be O(n^2).
      * Place complexity - O(n), because i create a new BigNumber that represent the multiply of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
      * Therefore i will have in the worst scenario n new figures plus k figures which will be add as the result of the multiplication but this still remain O(n).
+     * because of each run i update old IntNode that i created and re-run over them i don't actually create n^2 IntNodes but only n IntNodes (n represent the amount of figures of the bigger BigNumber)
+     * and add another k figures that represent the delta figures which will be add as the result of the multiplication but this still remain O(n).
      * @param other a Long instance, which i will multiply with my current number.
      * @return Return a new BigNumber which is the multiplication of the BigNumber i get and the current BigNumber i have.
      */
