@@ -9,7 +9,7 @@ public class BigNumber {
     //TODO: go over all of my Time and Place complexity explanations to be sure! ~
 
     //Assumptions -
-    // This method will get only non-negative numbers, which means only positive and zero.
+    // This method will get only non-negative numbers, which means only positive numbers and zero.
     // The NodeList must be only one-way.
     // We can't add any class variables.
     // We can add private methods.
@@ -31,8 +31,8 @@ public class BigNumber {
 
     /**
      * This method is getting a long number, and create a new NodeList that will represent this number.
-     * Time complexity - O(n), because you have to run through all the figures of the number you get (and the size of num different the amount of loops you will do).
-     * Place complexity - O(n), because you have to run through all the figures of the number you get and create new IntNode for each one (and the size of num different the amount of loops you will do).
+     * Time complexity - O(n), because you have to run through all the figures of the number you get once (and the size of num different the amount of loops you will do).
+     * Place complexity - O(n), because you have to run through all the figures of the number you get and create new IntNode for each one once (and the size of num different the amount of loops you will do).
      * @param num A long number.
      */
     public BigNumber(long num){
@@ -55,8 +55,8 @@ public class BigNumber {
 
     /**
      * This method get a BigNumber and create a new copy of this NodeList.
-     * Time complexity - O(n), because you have to run through all the figures of the BigNumber you get (and the size of big_Num different the amount of loops you will do).
-     * Place complexity - O(n), because you have to run through all the figures of the BigNumber you get and create new IntNode for each one (and the size of big_Num different the amount of loops you will do).
+     * Time complexity - O(n), because you have to run through all the figures of the BigNumber you get once (and the size of big_Num different the amount of loops you will do).
+     * Place complexity - O(n), because you have to run through all the figures of the BigNumber you get and create new IntNode for each one once (and the size of big_Num different the amount of loops you will do).
      * @param big_Num a BigNumber instance, which is a NodeList that represent a very long number.
      */
     public BigNumber(BigNumber big_Num){
@@ -80,29 +80,28 @@ public class BigNumber {
 
     /**
      * This method return a String that represents a BigNumber.
-     * Time complexity - O(n), because you have to run through all the figures of the current BigNumber you have once (and the size of the BigNumber different the amount of loops you will do).
-     * Place complexity - O(1), because you only create 2 instances which don't have any dependency on the input of the client thus it will be O(1).
+     * Time complexity - O(n), because in the worst scenario my recursion method will have to run n times to return the total string of the BigNumber.
+     * the reason it's only O(n) because in the worst scenario i will go through each figure of BigNumber once (n represents the amount of figures BigNumber will have).
+     * Place complexity - O(1), because you only declare 1 pointer which don't have any dependency on the input of the client thus it will be O(1).
      * @return A String that represents a BigNumber.
      */
     public String toString(){
-        // Define variables -
-        String result = "" + this._head.getValue(); // The String that will hold the final result.
-        IntNode curr_Node = _head.getNext(); // An Index that will let me go through my NodeList.
+        //Assumption -
+        // This must be in O(n) time complexity.
+        // This method must be recursion.
 
-        while(curr_Node != null){
-            if(curr_Node.getValue() != 0 || curr_Node.getNext() != null){
-                result = curr_Node.getValue() + result; // Take the current figure and cast it to a string and add it as the first char in the result String.
-            }
-            // Getting the next figure in the number -
-            curr_Node = curr_Node.getNext();
+        // Define variables -
+        IntNode curr_Node = _head; // An Index that will let me go through my NodeList.
+
+        if(this._head.getValue() == 0 && this._head.getNext() == null){
+            return "0";
         }
-        // Return the final String -
-        return result;
+        return recursionString(curr_Node);
     }
 
     /**
      * This method comparing between 2 BigNumbers and will return a integer value that represent which one is bigger.
-     * Time complexity - O(n), because in the worst scenario you have to reverse the figures of both of the BigNumbers (which is O(n)) and run through all the figures of the bigger BigNumber
+     * Time complexity - O(n), because in the worst scenario you have to reverse the figures of both of the BigNumbers (which is O(n)) and then run through all the figures of the bigger BigNumber
      * you have once (and the size of the BigNumber different the amount of loops you will do but still keep you in O(n)) thus the time complexity will remain O(n).
      * Place complexity - O(n), because you create a one copy of each BigNumber to reverse them and then start comparing them therefore the place complexity is depends on the size of the BigNumbers you get
      * so it must be O(n), and it's only O(n) and not O(n^2) because you create each copy once and only once thus it will remain O(n).
@@ -273,6 +272,21 @@ public class BigNumber {
     // ***************************************************************************
     // Private methods i wrote in this Maman (15) to build cleaner public methods:
     // ***************************************************************************
+
+    // This method get a Head of IntNode list and return a String that hold the number the IntNodeList represents.
+    // curr_Node - a Head of IntNode list.
+    // Return a String that hold the number the IntNodeList represents.
+    private String recursionString(IntNode curr_Node){
+        // If i reached the end of my NodeList / got an empty Node -
+        if(curr_Node == null){
+            return "";
+        }
+        // If i have a figure which is zero yet have another figure after her / have the last figure but it's not zero -
+        if(curr_Node.getValue() != 0 || curr_Node.getNext() != null){
+            return recursionString(curr_Node.getNext()) + curr_Node.getValue(); // Go to the next figure and keep the current one.
+        }
+        return recursionString(curr_Node.getNext()); // Go to the next figure
+    }
 
     // This method is getting 3 BigNumbers - 2 represent 2 BigNumbers and the third will represent the result of the addition of both of them.
     // This method will return the addition result of the 2 BigNumbers.

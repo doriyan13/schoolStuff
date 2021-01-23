@@ -44,6 +44,7 @@ public class BigNumberDoriTester {
 
         BigNumber bn5 = bn4.addLong(1111111111);
         System.out.println("after add long method: " + bn5.toString());
+        System.out.println("the new bn4: "+bn4.toString());
 
         BigNumber bn8 = bn5.multBigNumber(bn1);
         System.out.println("after multipling bn5*bn1: "+bn8.toString());
