@@ -6,8 +6,6 @@
  */
 public class BigNumber {
 
-    //TODO: go over all of my Time and Place complexity explanations to be sure! ~
-
     //Assumptions -
     // This method will get only non-negative numbers, which means only positive numbers and zero.
     // The NodeList must be only one-way.
@@ -23,7 +21,7 @@ public class BigNumber {
     /**
      * Empty Constructor - create new BigNumber that hold only 0 as default.
      * Time complexity - O(1), because you only do 1 action. (don't have any dependency on the input of the client)
-     * Place complexity - O(1), because you only create 1 instance which don't have any dependency on the input of the client.
+     * Space complexity - O(1), because you only create 1 instance which don't have any dependency on the input of the client.
      */
     public BigNumber(){
         _head = new IntNode(0);
@@ -32,7 +30,7 @@ public class BigNumber {
     /**
      * This method is getting a long number, and create a new NodeList that will represent this number.
      * Time complexity - O(n), because you have to run through all the figures of the number you get once (and the size of num different the amount of loops you will do).
-     * Place complexity - O(n), because you have to run through all the figures of the number you get and create new IntNode for each one once (and the size of num different the amount of loops you will do).
+     * Space complexity - O(n), because you have to run through all the figures of the number you get and create new IntNode for each one once (and the size of num different the amount of loops you will do).
      * @param num A long number.
      */
     public BigNumber(long num){
@@ -56,7 +54,7 @@ public class BigNumber {
     /**
      * This method get a BigNumber and create a new copy of this NodeList.
      * Time complexity - O(n), because you have to run through all the figures of the BigNumber you get once (and the size of big_Num different the amount of loops you will do).
-     * Place complexity - O(n), because you have to run through all the figures of the BigNumber you get and create new IntNode for each one once (and the size of big_Num different the amount of loops you will do).
+     * Space complexity - O(n), because you have to run through all the figures of the BigNumber you get and create new IntNode for each one once (and the size of big_Num different the amount of loops you will do).
      * @param big_Num a BigNumber instance, which is a NodeList that represent a very long number.
      */
     public BigNumber(BigNumber big_Num){
@@ -82,7 +80,7 @@ public class BigNumber {
      * This method return a String that represents a BigNumber.
      * Time complexity - O(n), because in the worst scenario my recursion method will have to run n times to return the total string of the BigNumber.
      * the reason it's only O(n) because in the worst scenario i will go through each figure of BigNumber once (n represents the amount of figures BigNumber will have).
-     * Place complexity - O(1), because you only declare 1 pointer which don't have any dependency on the input of the client thus it will be O(1).
+     * Space complexity - O(1), because you only declare 1 pointer which don't have any dependency on the input of the client thus it will be O(1).
      * @return A String that represents a BigNumber.
      */
     public String toString(){
@@ -103,7 +101,7 @@ public class BigNumber {
      * This method comparing between 2 BigNumbers and will return a integer value that represent which one is bigger.
      * Time complexity - O(n), because in the worst scenario you have to reverse the figures of both of the BigNumbers (which is O(n)) and then run through all the figures of the bigger BigNumber
      * you have once (and the size of the BigNumber different the amount of loops you will do but still keep you in O(n)) thus the time complexity will remain O(n).
-     * Place complexity - O(n), because you create a one copy of each BigNumber to reverse them and then start comparing them therefore the place complexity is depends on the size of the BigNumbers you get
+     * Space complexity - O(n), because you create a one copy of each BigNumber to reverse them and then start comparing them therefore the space complexity is depends on the size of the BigNumbers you get
      * so it must be O(n), and it's only O(n) and not O(n^2) because you create each copy once and only once thus it will remain O(n).
      * @param other a BigNumber instance, which is a NodeList that represent a very long number.
      * @return if the BigNumber that the method was used on is smaller then the other BigNumber then
@@ -171,8 +169,8 @@ public class BigNumber {
      * This method is getting 1 BigNumber and return a new BigNumber which is the addition of the current BigNumber and the one you get.
      * Time complexity - O(n), because in the worst scenario you firstly have to run n + m times to compare between them once and then run n times which represent the amount of figures the Bigger BigNumber have between the both of them.
      * Therefore the Time complexity will remain O(n).
-     * Place complexity - O(n), because i create a new BigNumber that represent the addition of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
-     * Therefore i will have in the worst scenario n+1 (when n is the number of figures of the bigger BigNumber) new figures that i must create so the place complexity will be O(n).
+     * Space complexity - O(n), because i create a new BigNumber that represent the addition of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
+     * Therefore i will have in the worst scenario n+1 (when n is the number of figures of the bigger BigNumber) new figures that i must create so the space complexity will be O(n).
      * @param other a BigNumber instance, which is a NodeList that represent a very long number that i will add to my current number.
      * @return Return a new BigNumber which is the addition of the current BigNumber and the one you get.
      */
@@ -194,8 +192,8 @@ public class BigNumber {
      * This method is getting 1 Long and return a new BigNumber which is the addition of the current BigNumber and the long you get.
      * Time complexity - O(n), because in the worst scenario you firstly have to run n + m times to compare between them once and then run n times which represent the amount of figures the Bigger BigNumber have between the both of them.
      * Therefore the Time complexity will remain O(n).
-     * Place complexity - O(n), firstly i create a BigNumber that represents the long (therefore i already in O(n)) and because i create a new BigNumber that represent the addition of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
-     * Therefore i will have in the worst scenario n+1 (when n is the number of figures of the bigger BigNumber) new figures that i must create so the place complexity will be O(n).
+     * Space complexity - O(n), firstly i create a BigNumber that represents the long (therefore i already in O(n)) and because i create a new BigNumber that represent the addition of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
+     * Therefore i will have in the worst scenario n+1 (when n is the number of figures of the bigger BigNumber) new figures that i must create so the space complexity will be O(n).
      * @param num - a Long instance, which i will add to my current number.
      * @return Return a new BigNumber which is the addition of the current BigNumber and the long you get.
      */
@@ -210,8 +208,8 @@ public class BigNumber {
      * This method is getting 1 BigNumber and return a new BigNumber which is the subtract of the bigger number then the other BigNumber.
      * Time complexity - O(n), because in the worst scenario you firstly have to run n + m times to compare between them 4 times and then run n times which represent the amount of figures the Bigger BigNumber have between the both of them.
      * Therefore the Time complexity will remain O(n).
-     * Place complexity - O(n), because i create a new BigNumber that represent the subtract of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
-     * Therefore i will have in the worst scenario n new figures that i must create so the place complexity will be O(n). (the subtract make the bigger BigNumber keep the amount of figures he started with).
+     * Space complexity - O(n), because i create a new BigNumber that represent the subtract of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
+     * Therefore i will have in the worst scenario n new figures that i must create so the space complexity will be O(n). (the subtract make the bigger BigNumber keep the amount of figures he started with).
      * @param other a BigNumber instance, which is a NodeList that represent a very long number.
      * @return Return a new BigNumber which is the subtract of the bigger number then the other BigNumber.
      */
@@ -245,7 +243,7 @@ public class BigNumber {
      * This method is getting 1 BigNumber and return a new BigNumber which is the multiplication of the BigNumber i get and the current BigNumber i have.
      * Time complexity - O(n^2), because in the worst scenario you firstly have to run n + m times to compare between them 2 times and then run n^2 times because you have to multiply each
      * figure of the first BigNumber with each figure of the other BigNumber (n for each j), therefore the time complexity will be O(n^2).
-     * Place complexity - O(n), because i create a new BigNumber that represent the multiply of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
+     * Space complexity - O(n), because i create a new BigNumber that represent the multiply of 2 BigNumbers and i must create a copy so for each final figure i must create a new IntNode once.
      * Therefore i will have in the worst scenario n new figures plus k figures which will be add as the result of the multiplication but this still remain O(n).
      * because of each run i update old IntNode that i created and re-run over them i don't actually create n^2 IntNodes but only n IntNodes (n represent the amount of figures of the bigger BigNumber)
      * and add another k figures that represent the delta figures which will be add as the result of the multiplication but this still remain O(n).
