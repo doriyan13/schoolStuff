@@ -5,8 +5,6 @@ package com.company;
  */
 public class IntNode {
 
-    //TODO: add the api for this class
-
     // Class variables -
     private int _value;
     private IntNode _next;
