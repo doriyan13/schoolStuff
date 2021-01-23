@@ -41,7 +41,7 @@ public class BigNumber {
         }
         else{
             // First i define the last number as the head of my NodeList -
-            _head = new IntNode((int) num % 10);
+            _head = new IntNode((int) (num % 10));
             IntNode curr_Node = _head;
 
             // Now i'm going to loop throughout the rest of the number and connect the rest of the number figures -
