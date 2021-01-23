@@ -47,7 +47,7 @@ public class BigNumber {
             // Now i'm going to loop throughout the rest of the number and connect the rest of the number figures -
             while((num / 10) >0){
                 num = num / 10;
-                curr_Node.setNext(new IntNode((int) num % 10));
+                curr_Node.setNext(new IntNode((int) (num % 10)));
                 curr_Node = curr_Node.getNext();
             }
         }
@@ -233,11 +233,11 @@ public class BigNumber {
         }
         // If This BigNumber is bigger then other -
         else if(this.compareTo(other) == 1){
-            return subtractTwoBigNumbers2(other,new BigNumber(this)); // Because this is subtract action i will copy the original number and then edit it!
+            return subtractTwoBigNumbers(other,new BigNumber(this)); // Because this is subtract action i will copy the original number and then edit it!
         }
         // If this not equal to other and the other BigNumber is bigger then him, he must be smaller then him -
         else{
-            return subtractTwoBigNumbers2(this,new BigNumber(other)); // Because this is subtract action i will copy the original number and then edit it!
+            return subtractTwoBigNumbers(this,new BigNumber(other)); // Because this is subtract action i will copy the original number and then edit it!
         }
     }
 
@@ -346,7 +346,7 @@ public class BigNumber {
 
     // This method is getting 2 BigNumbers - 2 represent 2 BigNumbers , the result will represent the result of the subtract of both of them.
     // This method will return the subtract result of the 2 BigNumbers.
-    private BigNumber subtractTwoBigNumbers2(BigNumber other, BigNumber result){
+    private BigNumber subtractTwoBigNumbers(BigNumber other, BigNumber result){
         // Define variables -
         IntNode curr_Index = result._head; // Index of the copy of the Bigger BigNumber.
         IntNode other_Index = other._head; // Index of the smaller BigNumber.
@@ -378,6 +378,9 @@ public class BigNumber {
             // Getting the next figure
             curr_Index = curr_Index.getNext();
         }
+        // Remove the extra zero's if there are any -
+        result.removeExtraZero(curr_Index);
+
         return result; // Return the addition result of the 2 BigNumbers.
     }
 
@@ -461,5 +464,22 @@ public class BigNumber {
             index = index.getNext();
         }
         return counter;
+    }
+
+    // This function remove the extra zero's in the subtract result -
+    // curr_Index - a IntNode that i will use as a index.
+    private void removeExtraZero(IntNode curr_Index){
+        // Reverse my BigNumber -
+        this.reverse();
+        // Reset my Index -
+        curr_Index = this._head;
+
+        // Remove the extra zero's -
+        while (curr_Index.getValue() == 0){
+            this._head = this._head.getNext();
+            curr_Index = this._head;
+        }
+        // Reverse again in the end to get the wanted result -
+        this.reverse();
     }
 }
