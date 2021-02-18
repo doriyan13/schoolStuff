@@ -6,4 +6,6 @@ public abstract class Person {
     public boolean f(int x){
         return false;
     }
+
+    public abstract void isMust();
 }

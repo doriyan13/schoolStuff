@@ -1,15 +1,9 @@
 package com.company;
 
-public class Student extends Person {
+public abstract class Student extends Person {
 
-//    private int[] _grades;
-//    private int _id;
-//    public static int _studentNum;
-
-//    public Student(Student student){
-//       // super(student._name); // -> don't pass compiler because _name is private and i try to access it!
-//    }
-
+    //as you can see i didn't created isMust and yet its okay, yet the trade off is that you must make the son class
+    //to be a abstarct class also..
     public boolean f(int x){
         return x==2;
     }
