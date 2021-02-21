@@ -110,6 +110,17 @@ public class PracticeForTest {
         return counter3;
     }
 
+    public static int number (int g1, int g2){
+        if( (g1 == 0) || (g2 == 0)){
+            return 1;
+        }
+        int counter = 0;
+        if(g1 > 0) counter += number(g1-1,g2);
+        if(g2> 0) counter += number(g1,g2-1);
+        return counter;
+    }
+
+
 
 
     public static void main(String[] args){
@@ -148,10 +159,12 @@ public class PracticeForTest {
                 System.out.print(crossTest[i] +"\t");
             }
         System.out.println();
-        int countFriendsTest = countFriends(15000);
+        int countFriendsTest = countFriends(9000);
         System.out.println("the number is: " + countFriendsTest);
 
         System.out.println("the min amount of figures: " + oneFiveSeven( 10));
+
+        System.out.println("this is number of paths: "+ number(3,2));
     }
 
 }
