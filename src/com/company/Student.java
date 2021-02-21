@@ -7,4 +7,8 @@ public abstract class Student extends Person {
     public boolean f(int x){
         return x==2;
     }
+    //overloading !
+    private void f (double num){
+        System.out.println("overLoading?");
+    }
 }

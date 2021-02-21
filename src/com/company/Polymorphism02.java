@@ -10,6 +10,11 @@ public class Polymorphism02 extends Polymorphism01 implements DoriInterface {
         _son_private_Field = 1;
     }
 
+    public Polymorphism02(int x ){
+        _son_protected_Field = 2;
+        _son_private_Field = 2;
+    }
+
     // Will it give the son or the dad?
     protected int getProtectedValue(){
         return this._son_protected_Field;
@@ -36,10 +41,13 @@ public class Polymorphism02 extends Polymorphism01 implements DoriInterface {
     }
 
     public boolean equals(Polymorphism02 p2){
-        return true;
+        System.out.println("this is Poly2 - pol2 overloading");
+        return _son_private_Field == p2._son_private_Field;
     }
 
     public boolean equals(Object obj){
+        System.out.println(_son_protected_Field);
+        System.out.println("this is Poly2 - obj override");
         if(obj instanceof Polymorphism02 && this.getPrivateValue() == ((Polymorphism02)obj).getPrivateValue() && this.getProtectedValue() == ((Polymorphism02)obj).getProtectedValue())
         return true;
 
@@ -48,5 +56,24 @@ public class Polymorphism02 extends Polymorphism01 implements DoriInterface {
 
     public void interfaceTester(Object b){
         System.out.println("an interface just created a pointer to Polymorphism02 Object! it does work");
+    }
+
+    public void testComplationProb(Polymorphism02 pol2){
+        Object obj = new Polymorphism02(15);
+        Polymorphism02 poly2 = new Polymorphism02();
+    }
+
+    public static void main(String args[]){
+        Object obj1 = new Polymorphism02();
+        Object obj2 = new Polymorphism02();
+        Polymorphism02 pol2 = new Polymorphism02();
+        System.out.println(obj1.equals(obj2));
+        System.out.println(obj1.equals(pol2));
+        System.out.println(pol2.equals(obj1));
+        char g = 'G';
+        char m = 'M';
+        System.out.println(g + "," + m);
+        System.out.println(g>m);
+        System.out.println(m>g);
     }
 }
