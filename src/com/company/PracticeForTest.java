@@ -120,6 +120,87 @@ public class PracticeForTest {
         return counter;
     }
 
+    public static int lcs(String s, String t){
+        return lcs(s,t,0,0);
+    }
+
+    private static int lcs(String s, String t, int index1, int index2){
+        if(index1 == s.length() || index2 == t.length()) return 0;
+        // the real counter of the max sub String -
+        int sub_Count = 0;
+
+        if(s.charAt(index1) == t.charAt(index2)) {
+            // at the start you need a way to count after that it will add up base apon this -
+            sub_Count = 1 + lcs(s,t,index1+1,index2+1); // start adding only here!
+        }
+        // to be able start getting all the different possibilities -
+        int counter1 = lcs(s,t,index1+1,index2);
+        int counter2 = lcs(s,t,index1,index2+1);
+        // because you cannot use Math in this exersice i will use if-else method -
+        if(counter1 >= counter2 && counter1 >= sub_Count) return counter1;
+        else if(counter2 >= counter1 && counter2 >= sub_Count) return counter2;
+        return sub_Count;
+    }
+
+    public static int maxEqualChar(String s){
+        return maxEqualChar(s,0,0);
+    }
+
+    private static int maxEqualChar(String s, int index, int max){
+        if(index == s.length()) return 0;
+
+        int temp_Sum = 1;
+
+        if(index == 0 || s.charAt(index) == s.charAt(index-1)){
+            max++;
+            temp_Sum = max;
+        }
+        return Math.max(max,maxEqualChar(s,index+1,temp_Sum));
+    }
+
+    public static boolean samePattern (String s1, String s2){
+        return samePattern(s1,s2,0,0);
+    }
+
+    private static boolean samePattern (String s1, String s2, int index1, int index2){
+
+        if(index1 == s1.length() || index2 == s2.length()) return false;
+
+        if(s2.charAt(index2) == s1.charAt(index1)) return samePattern(s1,s2,index1+1,index2+1);
+        else {
+            if(s2.charAt(index2) == '*'){
+                if(index2 == s2.length()-1) return true;
+
+                if(s2.charAt(index2+1) == s1.charAt(index1)) {
+                    return samePattern(s1, s2, index1+1, index2 + 2);
+                }
+			    else {
+                    return samePattern(s1,s2,index1+1,index2);
+                }
+            }
+            return false;
+        }
+    }
+
+    public static boolean isPermutation (int[] a, int[] b){
+        if(a.length != b.length) return false;
+        return isPermutation(a,b,0,0);
+    }
+
+    private static boolean isPermutation(int[] a, int[] b, int index1, int index2){
+        if(index2 ==b.length && index1 != a.length) return false;
+        if(index1 == a.length) return true;
+
+        if(a[index1] == b[index2]){
+            int temp = b[index1];
+            b[index1] = b[index2];
+            b[index2] = temp;
+            return isPermutation(a,b,index1+1, index1+1);
+        }
+        return isPermutation(a,b,index1, index2+1);
+    }
+
+
 
 
 
@@ -165,6 +246,19 @@ public class PracticeForTest {
         System.out.println("the min amount of figures: " + oneFiveSeven( 10));
 
         System.out.println("this is number of paths: "+ number(3,2));
+
+        String s = "abcdefgh";
+        String t = "bcwxftjg";
+        System.out.println("the longest sub-String of number up: " +lcs(s,t));
+        System.out.println("biggest letter repeat: "+ maxEqualChar("xxyxyyyyzzzeeeee"));
+
+        String s2 = "T*";
+        String s1 = "TheExampleIsEasy";
+        System.out.println("joker method: "+samePattern(s1,s2));
+
+        int[] perArr1 = {1,2,3,4};
+        int[] perArr2 = {4,1,3,2};
+        System.out.println("is permutation: "+ isPermutation(perArr1,perArr2));
     }
 
 }
