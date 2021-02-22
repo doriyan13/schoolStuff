@@ -200,6 +200,20 @@ public class PracticeForTest {
         return isPermutation(a,b,index1, index2+1);
     }
 
+    public static int midDiff(int[] arr){
+        return midDiff(arr,0,0,0);
+    }
+
+    private static int midDiff (int[] arr, int index, int sum1, int sum2){
+        if(index == arr.length) return Math.abs(sum1 - sum2);
+
+        int min1 = midDiff(arr,index+1,sum1+arr[index],sum2);
+        int min2 = midDiff(arr,index+1,sum1,sum2+arr[index]);
+
+        return Math.min(min1 , min2);
+    }
+
+
 
 
 
@@ -259,6 +273,9 @@ public class PracticeForTest {
         int[] perArr1 = {1,2,3,4};
         int[] perArr2 = {4,1,3,2};
         System.out.println("is permutation: "+ isPermutation(perArr1,perArr2));
+
+        int[] mDiff = {1,2,7,17,6};
+        System.out.println("the min diff is "+midDiff(mDiff));
     }
 
 }
