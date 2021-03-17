@@ -4,6 +4,8 @@ public class Class09 {
 //Test and Error for mamah02:
 
     static public double myFunc(double x, double y){
+        x+=1;
+        System.out.println(x);
         return 1.0;
     }
     // Not legal overloading because you can't change type!
@@ -21,8 +23,9 @@ public class Class09 {
     }
 
     public static void main(String[] args){
-
-        System.out.println(Class09.myFunc(1,1));
+        int x = 5;
+        System.out.println(Class09.myFunc(x,1));
+        System.out.println(x);
 
 //        Stack<Integer> st = new Stack();
 //        Queue<Integer> que = null;
