@@ -27,6 +27,9 @@ public class Class09 {
         System.out.println(Class09.myFunc(x,1));
         System.out.println(x);
 
+        int test = 600;
+        if(test % 60 == 0) System.out.println("YES");
+
 //        Stack<Integer> st = new Stack();
 //        Queue<Integer> que = null;
 //        que.add(1);
